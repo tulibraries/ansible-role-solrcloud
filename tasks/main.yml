@@ -1,0 +1,47 @@
+---
+
+- name: Zookeeper | Install
+  import_tasks: zk-install.yml
+  tags:
+    - zookeeper
+    - install
+
+- name: Zookeeper | Config
+  import_tasks: zk-config.yml
+  tags:
+    - zookeeper
+    - configure
+
+- name: Zookeeper | Service
+  import_tasks: zk-service.yml
+  tags:
+    - zookeeper
+    - service
+
+# To be added: Zookeeper node(s) healthcheck
+
+- name: SolrCloud | Install
+  import_tasks: sc-install.yml
+  tags:
+    - solrcloud
+    - install
+
+- name: SolrCloud | Configure
+  import_tasks: sc-config.yml
+  tags:
+    - solrcloud
+    - configure
+
+- name: SolrCloud | Service
+  import_tasks: sc-service.yml
+  tags:
+    - solrcloud
+    - service
+
+- name: SolrCloud | Manage collections
+  import_tasks: collections.yml
+  when: solr_collections is defined and solr_collections|length > 0
+  run_once: true
+  tags:
+    - solrcloud
+    - collections

@@ -1,0 +1,11 @@
+---
+galaxy_info:
+  company: Temple University Libraries
+  author: Christina Harlow
+  description: SolrCloud & Zookeeper role
+  min_ansible_version: 2.5.5
+  license: MIT
+  platforms:
+    - name: Centos
+      versions:
+        - 7
