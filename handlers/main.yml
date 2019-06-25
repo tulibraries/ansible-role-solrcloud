@@ -1,0 +1,7 @@
+---
+
+- name: Restart SolrCloud
+  systemd:
+    name: solr
+    state: restarted
+  when: solr_service_state != 'stopped'

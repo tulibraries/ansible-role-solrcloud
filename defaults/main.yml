@@ -1,0 +1,100 @@
+---
+
+## SOLRCLOUD CONFIGURATIONS
+## ------------------------
+solr_version: 8.1.1
+solrcloud_install: true
+
+# User & Group
+solr_user: solr
+solr_group: solr
+
+# (Re)Start Service on Box (Re)Boot?
+solr_service_enabled: true
+solr_service_state: started  # current state: started, stopped
+
+# Files & Paths
+solr_installation_dir: /opt/solr
+solr_templates_dir: templates
+solr_log_dir: /var/log/solr
+solr_home: /var/solr
+solr_data_dir: "{{ solr_home }}/data"
+solr_collections_config_tmp_dir: /tmp/collections
+
+# Logs
+solr_log_root_level: WARN
+solr_log_file_size: 500MB
+solr_log_max_backup_index: 9
+solr_log_config_file: log4j2.xml
+solr_log_file_name: solr.log
+solr_log_slow_queries_file_name: solr_slow_requests.log
+
+# Ports
+solr_host: "{{ hostvars[inventory_hostname].ansible_host }}"
+solr_port: 8983
+solr_url: http://{{ solr_host }}:{{ solr_port }}/solr
+solr_jmx_enabled: 'true'
+solr_jmx_port: 1099
+
+# JVM
+solr_gc_tune: "-XX:NewRatio=3 \
+-XX:SurvivorRatio=4 \
+-XX:TargetSurvivorRatio=90 \
+-XX:MaxTenuringThreshold=8 \
+-XX:+UseG1GC \
+-XX:ConcGCThreads=4 \
+-XX:ParallelGCThreads=4 \
+-XX:+CMSScavengeBeforeRemark \
+-XX:PretenureSizeThreshold=64m \
+-XX:+UseCMSInitiatingOccupancyOnly \
+-XX:CMSInitiatingOccupancyFraction=50 \
+-XX:CMSMaxAbortablePrecleanTime=6000 \
+-XX:+CMSParallelRemarkEnabled \
+-XX:+ParallelRefProcEnabled \
+-XX:+UseTLAB"
+solr_stack_size: 256k
+solr_heap: 512m
+
+# Jetty
+solr_jetty_threads_min: 10
+solr_jetty_threads_max: 10000
+solr_jetty_threads_idle_timeout: 5000
+solr_jetty_threads_stop_timeout: 60000
+solr_jetty_secure_port: 8443
+solr_jetty_output_buffer_size: 32768
+solr_jetty_output_aggregation_size: 8192
+solr_jetty_request_header_size: 8192
+solr_jetty_response_header_size: 8192
+solr_jetty_send_server_version: 'false'
+solr_jetty_send_date_header: 'false'
+solr_jetty_header_cache_size: 512
+solr_jetty_delay_dispatch_until_content: 'false'
+solr_jetty_http_selectors: -1
+solr_jetty_http_acceptors: -1
+
+# Zookeeper
+zookeeper_hosts: "
+        {%- set ips = [] %}
+        {%- for host in groups['zookeeper'] %}
+          {{- ips.append(hostvars[host].ansible_host) }}
+        {%- endfor %}
+        {{- ips -}}"
+solr_zookeeper_hosts: "{{ zookeeper_hosts | join(',') }}"
+solr_zookeeper_hosts_solr_path: solr
+solr_zk_host: "{{ solr_zookeeper_hosts }}/{{ solr_zookeeper_hosts_solr_path }}"
+solr_zookeeper_client_path: "{{ solr_installation_dir }}/server/scripts/cloud-scripts"
+solr_zookeeper_client_timeout: 15000
+
+# Collections configuration
+solr_collections: {}
+# Should have configuration files under "templates/collections/[collection_name]" directory
+solr_collections_template_path: "{{ playbook_dir }}/templates/collections/"
+solr_collections_transfer_mode: copy  # synchronize, copy
+
+# External libs support
+solr_external_libraries_repository_url: http://repo1.maven.org/maven2
+solr_external_libraries: {}
+
+# Collections API URLs
+solrcloud_collections_api_create: "{{ solr_url }}/admin/collections?action=CREATE&name={{ item }}&numShards={{ solr_collections[item].shards }}&replicationFactor={{ solr_collections[item].replicas }}&collection.configName={{ item }}&maxShardsPerNode={{ solr_collections[item].shards_per_node }}"
+solrcloud_collections_api_modify: "{{ solr_url }}/admin/collections?action=MODIFYCOLLECTION&collection={{ item }}&replicationFactor={{ solr_collections[item].replicas }}&maxShardsPerNode={{ solr_collections[item].shards_per_node }}&autoAddReplicas=true"
