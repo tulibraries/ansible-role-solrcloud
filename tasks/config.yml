@@ -18,7 +18,7 @@
     {{ solr_zookeeper_client_path }}/zkcli.sh
     -zkhost {{ solr_zookeeper_hosts }}
     -cmd makepath /{{ solr_zookeeper_hosts_solr_path }}
-  when: '" /{{ solr_zookeeper_hosts_solr_path }} " not in solr_path_check.stdout'
+  when: solr_zookeeper_hosts_solr_path not in solr_path_check.stdout
   register: create_root_path_result
   failed_when: |
     create_root_path_result.rc != 0 and
@@ -29,42 +29,42 @@
     src: "{{ solr_templates_dir }}/jetty.xml.j2"
     dest: "{{ solr_installation_dir }}/server/etc/jetty.xml"
     force: true
-  notify: restart SolrCloud
+  notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring jetty server http
   template:
     src: "{{ solr_templates_dir }}/jetty-http.xml.j2"
     dest: "{{ solr_installation_dir }}/server/etc/jetty-http.xml"
     force: true
-  notify: restart SolrCloud
+  notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring SolrCloud init script
   template:
     src: "{{ solr_templates_dir }}/solr.in.sh.j2"
     dest: /etc/default/solr.in.sh
     force: true
-  notify: restart SolrCloud
+  notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring SolrCloud properties
   template:
     src: "{{ solr_templates_dir }}/solr.xml.j2"
     dest: "{{ solr_data_dir }}/solr.xml"
     force: true
-  notify: restart SolrCloud
+  notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring logging
   template:
     src: "{{ solr_templates_dir }}/{{ solr_log_config_file }}.j2"
     dest: "{{ solr_installation_dir }}/{{ solr_log_config_file }}"
     force: true
-  notify: restart SolrCloud
+  notify: Restart SolrCloud
 
 - name: SolrCloud | Install maven_artifact module required packages
   package:
     name: "{{ item }}"
     state: present
   with_items: "{{ solr_external_libraries_required_packages }}"
-  notify: restart SolrCloud
+  notify: Restart SolrCloud
   when: solr_external_libraries is defined and solr_external_libraries|length > 0
 
 - name: SolrCloud | Copy external libraries

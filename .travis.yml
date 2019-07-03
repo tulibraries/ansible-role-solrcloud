@@ -10,7 +10,7 @@ install:
   - pipenv install --dev
 
 script:
-  - pipenv run molecule test
+  - pipenv run molecule test --all
 
 after_success:
   - true

@@ -1,11 +1,5 @@
 ---
 
-- name: Restart Zookeeper
-  systemd:
-    name: zookeeper
-    state: restarted
-  when: zookeeper_service_state != 'stopped'
-
 - name: Restart SolrCloud
   systemd:
     name: solr

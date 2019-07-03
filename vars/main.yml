@@ -1,14 +1,5 @@
 ---
 
-# Zookeeper Variables
-zookeeper_required_libs:
-  - unzip
-  - nc
-  - net-tools
-
-zookeeper_url: "http://apache.mirrors.tds.net/zookeeper/zookeeper-{{zookeeper_version}}/apache-zookeeper-{{zookeeper_version}}.tar.gz"
-zookeeper_main_file: org.apache.zookeeper.server.quorum.QuorumPeerMain
-
 # SolrCloud Variables
 solr_required_libs:
   - rsync
