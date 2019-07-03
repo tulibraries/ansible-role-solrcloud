@@ -89,6 +89,8 @@ solr_zookeeper_client_timeout: 15000
 solr_collections: {}
 # Should have configuration files under "templates/collections/[collection_name]" directory
 solr_collections_template_path: "{{ playbook_dir }}/templates/collections/"
+# This git repositories is cloned from master & moved to solr_collections_template_path
+solr_collections_git_repo: ""
 solr_collections_transfer_mode: copy  # synchronize, copy
 
 # External libs support

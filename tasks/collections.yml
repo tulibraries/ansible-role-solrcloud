@@ -9,6 +9,12 @@
   changed_when: false
   with_dict: "{{ solr_collections }}"
 
+- name: Clone Collections Git Repo to Ansible host
+  git:
+    repo: "{{ solr_collections_git_repo }}"
+    dest: "{{ solr_collections_template_path }}"
+    version: master
+
 - name: SolrCloud | Copy files for collections configs in tmp directories
   synchronize:
     src: "{{ solr_collections_template_path }}"
