@@ -5,12 +5,19 @@ python:
 services:
   - docker
 
+env:
+  matrix:
+    - MOLECULE_SCENARIO: default
+    - MOLECULE_SCENARIO: setup_with_collections
+    - MOLECULE_SCENARIO: setup_with_collections_copy
+    - MOLECULE_SCENARIO: setup_with_external_libs
+
 install:
   - pip install pipenv
   - pipenv install --dev
 
 script:
-  - pipenv run molecule test --all
+  - molecule test --scenario-name $MOLECULE_SCENARIO
 
 after_success:
   - true
@@ -33,7 +40,6 @@ deploy:
     repo: tulibraries/ansible-role-solrcloud
     tags: true
     branch:
-      - master
       - /^v.*$/
 
 notifications:
