@@ -17,16 +17,16 @@
   register: synchronized_config_synchronize
   look: "{{ solr_collections_git_repo }}"
 
-- name: SolrCloud | Upload initial config
-  command: >
-    {{ solr_zookeeper_client_path }}/zkcli.sh
-    -zkhost {{ solr_zookeeper_hosts }}/{{ solr_zookeeper_hosts_solr_path }}
-    -cmd upconfig
-    -confname {{ item.key }}
-    -confdir "{{ solr_collections_git_tmp_dir }}/{{ solr_collections_git_repo.name }}/{{ solr_collections_git_repo.configs_dir }}/{{ item.key }}"
-  when: synchronized_config_synchronize.changed
-  with_dict: "{{ solr_collections }}"
-  tags: skip_ansible_lint
+# - name: SolrCloud | Upload initial config
+#   command: >
+#     {{ solr_zookeeper_client_path }}/zkcli.sh
+#     -zkhost {{ solr_zookeeper_hosts }}/{{ solr_zookeeper_hosts_solr_path }}
+#     -cmd upconfig
+#     -confname {{ item.key }}
+#     -confdir "{{ solr_collections_git_tmp_dir }}/{{ solr_collections_git_repo.name }}/{{ solr_collections_git_repo.configs_dir }}/{{ item.key }}"
+#   when: synchronized_config_synchronize.changed
+#   with_dict: "{{ solr_collections }}"
+#   tags: skip_ansible_lint
 
 - name: SolrCloud | Return existing collections
   uri:
