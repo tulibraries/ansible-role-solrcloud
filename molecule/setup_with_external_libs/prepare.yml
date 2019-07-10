@@ -3,3 +3,7 @@
   hosts: all
   gather_facts: false
   tasks: []
+  vars:
+    ansible_os_family: 'RedHat'
+  roles:
+    - role: geerlingguy.git

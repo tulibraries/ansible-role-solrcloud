@@ -20,7 +20,6 @@ solr_log_dir: /var/log/solr
 solr_home: /var/solr
 solr_data_dir: "{{ solr_home }}/data"
 solr_collections_config_tmp_dir: /tmp/collections
-solr_collections_git_tmp_dir: /tmp/git
 
 # Logs
 solr_log_root_level: WARN
@@ -88,10 +87,7 @@ solr_zookeeper_client_timeout: 15000
 
 # Collections configuration
 solr_collections: {}
-# Should have configuration files under "templates/collections/[collection_name]" directory
-solr_collections_path: "{{ playbook_dir }}/templates/collections/"
-solr_collections_template_path: "{{ playbook_dir }}/templates/collections/"
-# This git repositories is cloned & moved to solr_collections_template_path
+# This git repositories is cloned & loaded
 solr_collections_git_repo:
   name: solr-configs
   url: "https://github.com/tulibraries/solr-configs.git"
@@ -101,7 +97,3 @@ solr_collections_git_repo:
 # External libs support
 solr_external_libraries_repository_url: http://repo1.maven.org/maven2
 solr_external_libraries: {}
-
-# Collections API URLs
-solrcloud_collections_api_create: "{{ solr_url }}/admin/collections?action=CREATE&name={{ item }}&numShards={{ solr_collections[item].shards }}&replicationFactor={{ solr_collections[item].replicas }}&collection.configName={{ item }}&maxShardsPerNode={{ solr_collections[item].shards_per_node }}"
-solrcloud_collections_api_modify: "{{ solr_url }}/admin/collections?action=MODIFYCOLLECTION&collection={{ item }}&replicationFactor={{ solr_collections[item].replicas }}&maxShardsPerNode={{ solr_collections[item].shards_per_node }}&autoAddReplicas=true"

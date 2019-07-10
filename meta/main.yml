@@ -10,5 +10,4 @@ galaxy_info:
       versions:
         - '7'
 dependencies:
-- role: 'geerlingguy.git'
-  version: '2.0.4'
+  - role: 'geerlingguy.git'
