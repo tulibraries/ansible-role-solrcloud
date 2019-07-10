@@ -4,10 +4,16 @@ solr_zookeeper_hosts: zookeeper:2181
 solr_host: "{{ hostvars[ansible_nodename]['ansible_' + ansible_default_ipv4.alias]['ipv4']['address'] }}"
 solr_port: 8983
 
+## SolrCloud Collections configuration
 solr_collections:
-  # Extracted from https://github.com/apache/lucene-solr/tree/master/solr/server/solr/configsets/sample_techproducts_configs/conf
-  # Should have configuration files under "templates/collections/[collection_name]" directory
-  sample_techproducts_configs:
-    shards: 2
-    replicas: 1
+  tul_cob-catalog:
+    shards: 1
+    replicas: 3
     shards_per_node: 1
+
+# This git repositories is cloned & moved to solr_collections_template_path
+solr_collections_git_repo:
+  name: "solr-configs"
+  url: "https://github.com/tulibraries/solr-configs.git"
+  configs_dir: "collections"
+  branch: "master"

@@ -1,11 +1,13 @@
 ---
 galaxy_info:
-  company: Temple University Libraries
-  author: Christina Harlow
-  description: SolrCloud role
-  min_ansible_version: 2.8.1
-  license: MIT
+  company: 'Temple University Libraries'
+  author: 'Christina Harlow'
+  description: 'SolrCloud role'
+  min_ansible_version: '2.8.1'
+  license: 'MIT'
   platforms:
-    - name: Centos
+    - name: 'Centos'
       versions:
-        - 7
+        - '7'
+dependencies:
+  - role: 'geerlingguy.git'
