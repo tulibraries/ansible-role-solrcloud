@@ -9,7 +9,6 @@ env:
   matrix:
     - MOLECULE_SCENARIO: default
     - MOLECULE_SCENARIO: setup_with_collections
-    - MOLECULE_SCENARIO: setup_with_collections_copy
     - MOLECULE_SCENARIO: setup_with_external_libs
 
 install:
