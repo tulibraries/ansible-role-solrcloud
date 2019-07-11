@@ -28,7 +28,7 @@
   with_dict: "{{ solr_collections }}"
   when: true
   tags:
-  - skip_ansible_lint
+    - skip_ansible_lint
 
 - name: SolrCloud | Return existing collections
   uri:
