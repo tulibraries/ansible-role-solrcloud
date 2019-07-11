@@ -1,6 +1,7 @@
 ---
 dependency:
   name: galaxy
+  role-file: requirements.yml
 driver:
   name: docker
 platforms:
@@ -65,6 +66,20 @@ provisioner:
     name: ansible-lint
 scenario:
   name: setup_with_external_libs
+  test_sequence:
+    - lint
+    - cleanup
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    # - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
 verifier:
   name: goss
   lint:

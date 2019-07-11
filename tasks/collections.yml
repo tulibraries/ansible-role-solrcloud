@@ -5,6 +5,8 @@
     url: "{{ solr_url }}/{{ item.key }}/config"
     return_content: true
     status_code: 200,404
+    force: true
+    update: true
   register: config_exists_api_responses
   changed_when: false
   with_dict: "{{ solr_collections }}"
@@ -16,7 +18,7 @@
     dest: "{{ solr_collections_config_tmp_dir }}/{{ solr_collections_git_repo.name }}"
   with_dict: "{{ solr_collections }}"
 
-- name: SolrCloud | Upload initial config
+- name: SolrCloud | Upload SolrCloud Configs
   command: >
     {{ solr_zookeeper_client_path }}/zkcli.sh
     -zkhost {{ solr_zookeeper_hosts }}/{{ solr_zookeeper_hosts_solr_path }}
@@ -25,6 +27,8 @@
     -confdir "{{ solr_collections_config_tmp_dir }}/{{ solr_collections_git_repo.name }}/{{ solr_collections_git_repo.configs_dir }}/{{ item.key }}/conf/"
   with_dict: "{{ solr_collections }}"
   when: true
+  tags:
+    - skip_ansible_lint
 
 - name: SolrCloud | Return existing collections
   uri:
