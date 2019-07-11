@@ -1,6 +1,7 @@
 ---
 dependency:
   name: galaxy
+  role-file: requirements.yml
 driver:
   name: docker
 platforms:
@@ -65,33 +66,11 @@ provisioner:
     name: ansible-lint
 scenario:
   name: setup_with_collections
-  create_sequence:
-    - dependency
-    - create
-    - prepare
-  check_sequence:
-    - dependency
-    - cleanup
-    - destroy
-    - create
-    - prepare
-    - converge
-    - check
-    - destroy
-  converge_sequence:
-    - dependency
-    - create
-    - prepare
-    - converge
-  destroy_sequence:
-    - dependency
-    - cleanup
-    - destroy
   test_sequence:
     - lint
-    - dependency
     - cleanup
     - destroy
+    - dependency
     - syntax
     - create
     - prepare
