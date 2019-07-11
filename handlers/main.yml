@@ -5,13 +5,3 @@
     name: solr
     state: restarted
   when: solr_service_state != 'stopped'
-
-- name: Upload SolrCloud Config
-  command: >
-    {{ solr_zookeeper_client_path }}/zkcli.sh
-    -zkhost {{ solr_zookeeper_hosts }}/{{ solr_zookeeper_hosts_solr_path }}
-    -cmd upconfig
-    -confname {{ item.key }}
-    -confdir "{{ solr_collections_config_tmp_dir }}/{{ solr_collections_git_repo.name }}/{{ solr_collections_git_repo.configs_dir }}/{{ item.key }}/conf/"
-  with_dict: "{{ solr_collections }}"
-  when: configs_repo_updated.changed is defined and configs_repo_updated.changed == "true"
