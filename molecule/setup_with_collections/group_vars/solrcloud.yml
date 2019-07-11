@@ -8,7 +8,7 @@ solr_port: 8983
 solr_collections:
   tul_cob-catalog:
     shards: 1
-    replicas: 3
+    replicas: 2
     shards_per_node: 1
 
 # This git repositories is cloned & moved to solr_collections_template_path

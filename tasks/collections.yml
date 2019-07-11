@@ -5,6 +5,8 @@
     url: "{{ solr_url }}/{{ item.key }}/config"
     return_content: true
     status_code: 200,404
+    force: true
+    update: true
   register: config_exists_api_responses
   changed_when: false
   with_dict: "{{ solr_collections }}"
