@@ -60,8 +60,5 @@ Then run the playbook:
 
 You need the following set in your playbook for your inventory(ies):
 - zookeeper_hosts: `[zk_1_ip, zk_2_ip, zk_3_ip]` (an array of zookeeper host IPs; include ports if non-standard)
-- solr_collections: `{ 'collection1': { 'shards': 1, 'replicas': 2, 'shards_per_node': 1 } }` (a dictionary of dictionaries for solrcloud collections to be created)
-- solr_collections_template_path: `{{ playbook_dir }}/templates/collections/` (where the playbook can find the solr configs, in directories per collection defined above)
-- solr_collections_transfer_mode: copy or synchronize - basically, copy or rsync the above collection configurations to the hosts for then loading to Zookeeper
 
 Other Variables are defined in `defaults/main.yml`.

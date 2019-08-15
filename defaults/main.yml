@@ -19,7 +19,6 @@ solr_templates_dir: templates
 solr_log_dir: /var/log/solr
 solr_home: /var/solr
 solr_data_dir: "{{ solr_home }}/data"
-solr_collections_config_tmp_dir: /tmp/collections
 
 # Logs
 solr_log_root_level: WARN
@@ -84,19 +83,6 @@ solr_zookeeper_hosts_solr_path: solr
 solr_zk_host: "{{ solr_zookeeper_hosts }}/{{ solr_zookeeper_hosts_solr_path }}"
 solr_zookeeper_client_path: "{{ solr_installation_dir }}/server/scripts/cloud-scripts"
 solr_zookeeper_client_timeout: 15000
-
-## SolrCloud Collections configuration
-solr_collections:
-  tul_cob-az-v0.1-a:
-    shards: 1
-    replicas: 3
-    shards_per_node: 1
-    url: "https://github.com/tulibraries/tul_cob-az-solr/releases/download/v0.1/tul_cob-az-v0.1.zip"
-
-# SolrCloud Aliases configuration
-solr_aliases:
-  tul_cob-az-qa:
-    collection: "tul_cob-az-v0.1-a"
 
 # External libs support
 solr_external_libraries_repository_url: http://repo1.maven.org/maven2

@@ -29,7 +29,6 @@
   with_items:
     - "{{ solr_log_dir }}"
     - "{{ solr_data_dir }}"
-    - "{{ solr_collections_config_tmp_dir }}"
 
 - name: SolrCloud | Check if service is running
   command: systemctl status solr.service
