@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4b923b44f60024845100ba74ea843f8dd416f5e70c3e114e42b8d7f6c5848bfb"
+            "sha256": "80be3af626b1fc2a4a465784788f820d8988429f656798f308317500aca60bbb"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -170,6 +170,14 @@
                 "sha256:f57b76e46a58b63d1c6375017f4564a28f19a5ca912691fd2e4261b3414b618d"
             ],
             "version": "==2.7"
+        },
+        "docker": {
+            "hashes": [
+                "sha256:acf51b5e3e0d056925c3b780067a6f753c915fffaa46c5f2d79eb0fc1cbe6a01",
+                "sha256:cc5b2e94af6a2b1e1ed9d7dcbdc77eff56c36081757baf9ada6e878ea0213164"
+            ],
+            "index": "pypi",
+            "version": "==4.0.2"
         },
         "entrypoints": {
             "hashes": [
@@ -441,10 +449,10 @@
         },
         "ruamel.yaml": {
             "hashes": [
-                "sha256:547aeab5c51c93bc750ed2a320c1559b605bde3aa569216aa75fd91d8a1c4623",
-                "sha256:c5e239b6a4f26baabb2e22b145582a7d99ae9d4ebb8902291365a61ed38faa7f"
+                "sha256:1dce3220c6a9a91a2ac1928b2abe8358608b5ee97d485a31e931ea9f956773a4",
+                "sha256:3e425cf46c988059f7e086d8dd4be6015748bd8bfbb13b81ebff485eaa440157"
             ],
-            "version": "==0.16.1"
+            "version": "==0.16.2"
         },
         "ruamel.yaml.clib": {
             "hashes": [
@@ -517,6 +525,13 @@
                 "sha256:f4ebe71925af7b40a864553f761ed559b43544f8f71746c2d756c7fe788ade7c"
             ],
             "version": "==0.1.7"
+        },
+        "websocket-client": {
+            "hashes": [
+                "sha256:1151d5fb3a62dc129164292e1227655e4bbc5dd5340a5165dfae61128ec50aa9",
+                "sha256:1fd5520878b68b84b5748bb30e592b10d0a91529d5383f74f4964e72b297fd3a"
+            ],
+            "version": "==0.56.0"
         },
         "whichcraft": {
             "hashes": [
