@@ -2,8 +2,9 @@
 
 ## SOLRCLOUD CONFIGURATIONS
 ## ------------------------
-solr_version: 8.1.1
+solr_version: 8.2.0
 solrcloud_install: true
+solr_java_home: "/usr/local/openjdk-11"
 
 # User & Group
 solr_user: solr
