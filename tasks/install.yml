@@ -17,8 +17,36 @@
   user:
     name: "{{ solr_user }}"
     group: "{{ solr_group }}"
-    home: /bin/false
+    home: "{{ solr_installation_dir }}"
     createhome: true
+
+- name: SolrCloud | Ensure system open file soft limits for solr user are high enough
+  pam_limits:
+    domain: solr
+    limit_type: soft
+    limit_item: nofile
+    value: 66000
+
+- name: SolrCloud | Ensure system open file hard limits for solr user are high enough
+  pam_limits:
+    domain: solr
+    limit_type: hard
+    limit_item: nofile
+    value: 666000
+
+- name: SolrCloud | Ensure system process soft limits for solr user are high enough
+  pam_limits:
+    domain: solr
+    limit_type: soft
+    limit_item: nproc
+    value: 66000
+
+- name: SolrCloud | Ensure system process hard limits for solr user are high enough
+  pam_limits:
+    domain: solr
+    limit_type: soft
+    limit_item: nproc
+    value: 666000
 
 - name: SolrCloud | Ensure solr dirs exists
   file:
