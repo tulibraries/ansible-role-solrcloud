@@ -85,15 +85,6 @@ solr_zk_host: "{{ solr_zookeeper_hosts }}/{{ solr_zookeeper_hosts_solr_path }}"
 solr_zookeeper_client_path: "{{ solr_installation_dir }}/server/scripts/cloud-scripts"
 solr_zookeeper_client_timeout: 15000
 
-# Collections configuration
-solr_collections: {}
-# This git repositories is cloned & loaded
-solr_collections_git_repo:
-  name: solr-configs
-  url: "https://github.com/tulibraries/solr-configs.git"
-  configs_dir: "collections"
-  branch: "master"
-
 # External libs support
 solr_external_libraries_repository_url: http://repo1.maven.org/maven2
 solr_external_libraries: {}

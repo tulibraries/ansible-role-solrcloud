@@ -1,5 +1,0 @@
----
-
-- hosts: solrcloud
-  roles:
-    - role: ansible-role-solrcloud
