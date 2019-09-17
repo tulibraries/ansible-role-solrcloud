@@ -19,7 +19,7 @@
 # By default the script will use JAVA_HOME to determine which java
 # to use, but you can set a specific path for Solr to use without
 # affecting other Java applications on your server/workstation.
-#SOLR_JAVA_HOME=""
+SOLR_JAVA_HOME="{{solr_java_home}}"
 
 # This controls the number of seconds that the solr script will wait for
 # Solr to stop gracefully or Solr to start.  If the graceful stop fails,
@@ -182,4 +182,3 @@ SOLR_PORT="{{ solr_port }}"
 #SOLR_RECOMMENDED_OPEN_FILES=
 #SOLR_RECOMMENDED_MAX_PROCESSES=
 #SOLR_ULIMIT_CHECKS=
-

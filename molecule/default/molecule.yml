@@ -23,7 +23,7 @@ platforms:
 
   - name: solrcloud1
     hostname: solrcloud1
-    image: idealista/jdk:8u181-stretch-openjdk-headless
+    image: openjdk:11.0.4-stretch
     privileged: true
     capabilities:
       - SYS_ADMIN
@@ -43,7 +43,7 @@ platforms:
 
   - name: solrcloud2
     hostname: solrcloud2
-    image: idealista/jdk:8u181-stretch-openjdk-headless
+    image: openjdk:11.0.4-stretch
     privileged: true
     capabilities:
       - SYS_ADMIN
@@ -66,6 +66,20 @@ provisioner:
     name: ansible-lint
 scenario:
   name: default
+  test_sequence:
+    - lint
+    - cleanup
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    # - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
 verifier:
   name: goss
   lint:
