@@ -76,6 +76,15 @@
   ignore_errors: true
   when: service_solrcloud_status is success
 
+- name: SolrCloud | Check installed collections (for rolling deploy healthchecks)
+  uri:
+    url: "http://localhost:{{ solr_port }}/solr/admin/collections?action=LIST&wt=json"
+    return_content: true
+  register: solrcloud_preexisting_collections
+  changed_when: false
+  ignore_errors: true
+  when: service_solrcloud_status is success
+
 - name: SolrCloud | Download SolrCloud binaries
   get_url:
     url: "{{ solr_cloud_url }}"

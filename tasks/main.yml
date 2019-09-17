@@ -14,3 +14,14 @@
   import_tasks: service.yml
   tags:
     - service
+
+- name: SolrCloud | Preexisting SolrCloud Collections Healthcheck
+  uri:
+    url: "http://localhost:{{ solr_port }}/solr/{{ item }}/admin/ping"
+    status_code: 302
+  register: result
+  until: result.status == 302
+  retries: 60
+  delay: 1
+  loop: "{{ solrcloud_preexisting_collections.collections }}"
+  when: solrcloud_preexisting_collections | length
