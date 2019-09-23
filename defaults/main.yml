@@ -21,6 +21,10 @@ solr_log_dir: /var/log/solr
 solr_jetty_log_dir: /var/log/jetty
 solr_home: /var/solr
 solr_data_dir: "{{ solr_home }}/data"
+jetty_http_config_template: "jetty-http.xml.j2"
+jetty_config_template: "jetty.xml.j2"
+solr_in_sh_template: "solr.in.sh.j2"
+solr_xml_template: "solr.xml.j2"
 
 # Logs
 solr_log_root_level: WARN
