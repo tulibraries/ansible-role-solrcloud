@@ -26,28 +26,28 @@
 
 - name: SolrCloud | Configuring jetty server
   template:
-    src: "{{ solr_templates_dir }}/jetty.xml.j2"
+    src: "{{ solr_templates_dir }}/{{ jetty_config_template }}"
     dest: "{{ solr_installation_dir }}/server/etc/jetty.xml"
     force: true
   notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring jetty server http
   template:
-    src: "{{ solr_templates_dir }}/jetty-http.xml.j2"
+    src: "{{ solr_templates_dir }}/{{ jetty_http_config_template }}"
     dest: "{{ solr_installation_dir }}/server/etc/jetty-http.xml"
     force: true
   notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring SolrCloud init script
   template:
-    src: "{{ solr_templates_dir }}/solr.in.sh.j2"
+    src: "{{ solr_templates_dir }}/{{ solr_in_sh_template }}"
     dest: /etc/default/solr.in.sh
     force: true
   notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring SolrCloud properties
   template:
-    src: "{{ solr_templates_dir }}/solr.xml.j2"
+    src: "{{ solr_templates_dir }}/{{ solr_xml_template }}"
     dest: "{{ solr_data_dir }}/solr.xml"
     force: true
   notify: Restart SolrCloud
