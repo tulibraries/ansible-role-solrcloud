@@ -91,5 +91,5 @@ solr_zookeeper_client_path: "{{ solr_installation_dir }}/server/scripts/cloud-sc
 solr_zookeeper_client_timeout: 15000
 
 # External libs support
-solr_external_libraries_repository_url: http://repo1.maven.org/maven2
+solr_external_libraries_repository_url: https://repo1.maven.org/maven2
 solr_external_libraries: {}
