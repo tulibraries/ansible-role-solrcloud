@@ -1,6 +1,6 @@
 # TU Libraries SolrCloud Ansible Role
 
-[![Build Status](https://travis-ci.com/tulibraries/ansible-role-solrcloud.svg?branch=master)](https://travis-ci.com/tulibraries/ansible-role-solrcloud)
+[![Build Status](https://travis-ci.com/tulibraries/ansible-role-solrcloud.svg?branch=main)](https://travis-ci.com/tulibraries/ansible-role-solrcloud)
 
 This Ansible role installs an Apache SolrCloud cluster on Centos 7 boxes. It expects Java (tested with Java 8) is installed and a Zookeeper install is running.
 
