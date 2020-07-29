@@ -90,3 +90,6 @@
   register: result
   until: result.status == 200
   changed_when: false
+
+- name: SolrCloud | Set vm.swappiness
+  command: sysctl -w vm.swappiness=1
