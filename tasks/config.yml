@@ -84,9 +84,9 @@
 - name: SolrCloud | Wait for SolrCloud to fully startup before continue
   uri:
     url: "http://{{ solr_host }}:{{ solr_port }}/solr"
-    status_code: 200
+    status_code: 302
   retries: "100"
   delay: "1"
   register: result
-  until: result.status == 200
+  until: result.status == 302
   changed_when: false
