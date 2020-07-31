@@ -91,5 +91,16 @@
   until: result.status == 200
   changed_when: false
 
+- name: SolrCloud | Check vm.swappiness
+  command: cat /proc/sys/vm/swappiness
+  register: current_swappiness
+  changed_when: false
+
 - name: SolrCloud | Set vm.swappiness
-  command: sysctl -w vm.swappiness=1
+  when: (current_swappiness.stdout | int)  != solr_vm_swappiness
+  command: "sysctl -w vm.swappiness={{ solr_vm_swappiness }}"
+
+- name: SolrCloud | Set vm.swappiness in etc/sysctl
+  template:
+    dest: /etc/sysctl.d/solr.conf
+    src: sysctl-solr.conf.j2
