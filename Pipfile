@@ -9,8 +9,9 @@ pylint = "*"
 docker = "*"
 
 [packages]
+ansible = "==2.9.20"
+cryptography = "==3.3.2"
 molecule = "*"
-ansible = "*"
 
 [requires]
 python_version = "3.7"
