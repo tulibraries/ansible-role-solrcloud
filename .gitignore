@@ -1,0 +1,10 @@
+.vagrant
+.Vagrantfile
+www
+*.retry
+.vagrant
+keys
+downloads
+pytestcache
+pytestdebug.log
+.cache
