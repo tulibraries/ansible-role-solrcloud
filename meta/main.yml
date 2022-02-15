@@ -1,5 +1,8 @@
 ---
 galaxy_info:
+  role_name: 'ansible_role_solrcloud'
+  namespace: 'tulibraries'
+  github_branch: 'main'
   company: 'Temple University Libraries'
   author: 'Christina Harlow'
   description: 'SolrCloud role'
@@ -9,5 +12,7 @@ galaxy_info:
     - name: 'Centos'
       versions:
         - '7'
+  galaxy_tags:
+    - 'system'
 dependencies:
   - role: 'geerlingguy.git'

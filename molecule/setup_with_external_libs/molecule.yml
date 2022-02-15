@@ -62,10 +62,10 @@ platforms:
       - 0.0.0.0:8984:8983/tcp
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
+  lint: |
+    set -e
+    ansible-lint
 scenario:
-  name: setup_with_external_libs
   test_sequence:
     - lint
     - cleanup
