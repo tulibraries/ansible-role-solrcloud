@@ -1,7 +1,6 @@
 ---
 dependency:
   name: galaxy
-  role-file: requirements.yml
 driver:
   name: docker
 platforms:
@@ -16,7 +15,7 @@ platforms:
     groups:
       - zookeeper_group
     command: '/lib/systemd/systemd'
-    networks:
+    docker_networks:
       - name: solr-network
         aliases:
           - zookeeper

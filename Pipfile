@@ -10,9 +10,9 @@ molecule = "*"
 molecule-docker = "*"
 molecule-goss = "*"
 ansible-lint = "*"
+ansible-core = "*"
 
 [packages]
-ansible = "==2.10.7"
 cryptography = "==3.3.2"
 
 [requires]
