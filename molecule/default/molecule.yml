@@ -19,7 +19,7 @@ platforms:
     groups:
       - zookeeper_group
     command: '/lib/systemd/systemd'
-    docker_networks:
+    networks:
       - name: solr-network
         aliases:
           - zookeeper
