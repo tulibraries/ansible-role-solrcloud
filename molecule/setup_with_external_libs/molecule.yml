@@ -1,7 +1,10 @@
 ---
 dependency:
   name: galaxy
-  role-file: requirements.yml
+  collections:
+    - name: community.docker
+  options:
+    role-file: requirements.yml
 driver:
   name: docker
 platforms:
