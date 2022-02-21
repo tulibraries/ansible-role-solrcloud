@@ -1,9 +1,4 @@
 ---
-- name: Configure zookeeper zoo.cfg
-  template: src={{ solr_templates_dir }}/zoo.cfg.j2 dest={{ zookeeper_dir }}/conf/zoo.cfg owner=zookeeper group=zookeeper
-  tags: deploy
-  notify:
-    - Restart zookeeper
 
 - name: SolrCloud | Give execution permission to zkcli script
   file:
