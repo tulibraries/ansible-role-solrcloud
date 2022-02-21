@@ -10,6 +10,9 @@ solr_java_home: "/usr/local/openjdk-11"
 solr_user: solr
 solr_group: solr
 
+solr_username: foobar
+solr_password: abc123
+
 # (Re)Start Service on Box (Re)Boot?
 solr_service_enabled: true
 solr_service_state: started  # current state: started, stopped
