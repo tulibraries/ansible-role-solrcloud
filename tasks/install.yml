@@ -71,8 +71,8 @@
   uri:
     url: "http://localhost:{{ solr_port }}/solr/admin/info/system?wt=xml"
     force_basic_auth: yes
-    user: {{ solr_username }}
-    password: {{ solr_password }}
+    user: "{{ solr_username }}"
+    password: "{{ solr_password }}"
     return_content: true
   register: solrcloud_check
   changed_when: false
