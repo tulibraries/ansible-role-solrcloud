@@ -2,7 +2,7 @@
 # tasks file for SolrCloud
 # installation instructions taken from: https://cwiki.apache.org/confluence/display/solr/Taking+Solr+to+Production
 - name: SolrCloud | Installing required libs
-  package:
+  ansible.builtin.package:
     name: "{{ solr_required_libs }}"
     state: present
     update_cache: true
@@ -10,11 +10,11 @@
   register: solr_installed_required_libs
 
 - name: SolrCloud | Ensure solr group
-  group:
+  ansible.builtin.group:
     name: "{{ solr_group }}"
 
 - name: SolrCloud | Ensure solr user
-  user:
+  ansible.builtin.user:
     name: "{{ solr_user }}"
     group: "{{ solr_group }}"
     home: "{{ solr_installation_dir }}"
@@ -49,18 +49,19 @@
     value: 666000
 
 - name: SolrCloud | Ensure solr dirs exists
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ solr_user }}"
     group: "{{ solr_group }}"
+    mode: 0755
   with_items:
     - "{{ solr_log_dir }}"
     - "{{ solr_data_dir }}"
     - "{{ solr_jetty_log_dir }}"
 
 - name: SolrCloud | Check if service is running
-  command: systemctl status solr.service
+  ansible.builtin.command: systemctl status solr.service
   ignore_errors: true
   changed_when: false
   register: service_solrcloud_status
@@ -68,7 +69,7 @@
     - skip_ansible_lint
 
 - name: SolrCloud | Check installed version
-  uri:
+  ansible.builtin.uri:
     url: "http://localhost:{{ solr_port }}/solr/admin/info/system?wt=xml"
     force_basic_auth: yes
     user: "{{ solr_username }}"
@@ -80,7 +81,7 @@
   when: service_solrcloud_status is success
 
 - name: SolrCloud | Download SolrCloud binaries
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ solr_cloud_url }}"
     dest: /tmp/{{ solr_cloud_package }}
   when: |
@@ -90,7 +91,7 @@
         "<str name=\"lucene-spec-version\">solr_version</str>" not in solrcloud_check.content)
 
 - name: SolrCloud | Extract SolrCloud installation script in the current directory
-  shell: "tar xzf /tmp/{{ solr_cloud_package }} {{ solr_cloud_build_name }}/bin/install_solr_service.sh --strip-components=2"
+  ansible.builtin.shell: "tar xzf /tmp/{{ solr_cloud_package }} {{ solr_cloud_build_name }}/bin/install_solr_service.sh --strip-components=2"
   args:
     chdir: /tmp
   when: |
@@ -102,7 +103,7 @@
     - skip_ansible_lint
 
 - name: SolrCloud | Execute SolrCloud installation script
-  shell: /tmp/install_solr_service.sh /tmp/{{ solr_cloud_package }} -f -u {{ solr_user }} -n
+  ansible.builtin.shell: /tmp/install_solr_service.sh /tmp/{{ solr_cloud_package }} -f -u {{ solr_user }} -n
   when: |
       service_solrcloud_status.rc > 0 or
       service_solrcloud_status is success and

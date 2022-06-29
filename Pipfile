@@ -13,7 +13,7 @@ ansible-lint = "*"
 ansible-core = "*"
 
 [packages]
-cryptography = "==3.3.2"
+cryptography = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"
