@@ -1,12 +1,12 @@
 ---
 
 - name: SolrCloud | Give execution permission to zkcli script
-  file:
+  ansible.builtin.file:
     path: "{{ solr_zookeeper_client_path }}/zkcli.sh"
     mode: 0744
 
 - name: SolrCloud | Check Root Path (znode) in ZooKeeper
-  command: >
+  ansible.builtin.command: >
     {{ solr_zookeeper_client_path }}/zkcli.sh
     -zkhost {{ solr_zookeeper_hosts }}
     -cmd list /{{ solr_zookeeper_hosts_solr_path }}
@@ -14,7 +14,7 @@
   changed_when: false
 
 - name: SolrCloud | Create Root Path (znode) in ZooKeeper using zkcli script
-  command: >
+  ansible.builtin.command: >
     {{ solr_zookeeper_client_path }}/zkcli.sh
     -zkhost {{ solr_zookeeper_hosts }}
     -cmd makepath /{{ solr_zookeeper_hosts_solr_path }}
@@ -25,42 +25,42 @@
     "NodeExists" not in create_root_path_result.stderr
 
 - name: SolrCloud | Configuring jetty server
-  template:
+  ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ jetty_config_template }}"
     dest: "{{ solr_installation_dir }}/server/etc/jetty.xml"
     force: true
   notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring jetty server http
-  template:
+  ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ jetty_http_config_template }}"
     dest: "{{ solr_installation_dir }}/server/etc/jetty-http.xml"
     force: true
   notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring SolrCloud init script
-  template:
+  ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ solr_in_sh_template }}"
     dest: /etc/default/solr.in.sh
     force: true
   notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring SolrCloud properties
-  template:
+  ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ solr_xml_template }}"
     dest: "{{ solr_data_dir }}/solr.xml"
     force: true
   notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring logging
-  template:
+  ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ solr_log_config_file }}.j2"
     dest: "{{ solr_installation_dir }}/{{ solr_log_config_file }}"
     force: true
   notify: Restart SolrCloud
 
 - name: SolrCloud | Install maven_artifact module required packages
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   with_items: "{{ solr_external_libraries_required_packages }}"
@@ -79,28 +79,28 @@
   when: solr_external_libraries is defined and solr_external_libraries|length > 0
 
 - name: SolrCloud | Force handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: SolrCloud | Wait for SolrCloud to fully startup before continue
-  uri:
+  ansible.builtin.uri:
     url: "http://{{ solr_host }}:{{ solr_port }}/solr"
     status_code: 200
-  retries: "100"
-  delay: "1"
+  retries: 100
+  delay: 1
   register: result
   until: result.status == 200
   changed_when: false
 
 - name: SolrCloud | Check vm.swappiness
-  command: cat /proc/sys/vm/swappiness
+  ansible.builtin.command: cat /proc/sys/vm/swappiness
   register: current_swappiness
   changed_when: false
 
 - name: SolrCloud | Set vm.swappiness
   when: (current_swappiness.stdout | int)  != solr_vm_swappiness
-  command: "sysctl -w vm.swappiness={{ solr_vm_swappiness }}"
+  ansible.builtin.command: "sysctl -w vm.swappiness={{ solr_vm_swappiness }}"
 
 - name: SolrCloud | Set vm.swappiness in etc/sysctl
-  template:
+  ansible.builtin.template:
     dest: /etc/sysctl.d/solr.conf
     src: sysctl-solr.conf.j2

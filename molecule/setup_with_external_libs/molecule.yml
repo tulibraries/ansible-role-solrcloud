@@ -1,9 +1,11 @@
 ---
 dependency:
   name: galaxy
-  role-file: requirements.yml
 driver:
   name: docker
+lint: |
+  yamllint .
+  ansible-lint .
 platforms:
   - name: zookeeper
     hostname: zookeeper
@@ -62,10 +64,7 @@ platforms:
       - 0.0.0.0:8984:8983/tcp
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
 scenario:
-  name: setup_with_external_libs
   test_sequence:
     - lint
     - cleanup
@@ -81,6 +80,5 @@ scenario:
     - cleanup
     - destroy
 verifier:
-  name: goss
-  lint:
-    name: yamllint
+  name: ansible
+  
