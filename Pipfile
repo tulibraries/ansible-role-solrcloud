@@ -6,11 +6,10 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pylint = "*"
-molecule = "*"
-molecule-docker = "*"
-molecule-goss = "*"
-ansible-lint = "*"
-ansible-core = "*"
+ansible = "==2.9.27"
+molecule = "==3.0.4"
+docker = "==4.2.0"
+ansible-lint = "==4.2.0"
 
 [packages]
 cryptography = "*"
