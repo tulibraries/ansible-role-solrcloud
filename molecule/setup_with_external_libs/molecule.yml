@@ -1,10 +1,6 @@
 ---
 dependency:
   name: galaxy
-  collections:
-    - name: community.docker
-  options:
-    role-file: requirements.yml
 driver:
   name: docker
 lint: |
@@ -68,21 +64,6 @@ platforms:
       - 0.0.0.0:8984:8983/tcp
 provisioner:
   name: ansible
-scenario:
-  test_sequence:
-    - lint
-    - cleanup
-    - destroy
-    - dependency
-    - syntax
-    - create
-    - prepare
-    - converge
-    # - idempotence
-    - side_effect
-    - verify
-    - cleanup
-    - destroy
 verifier:
   name: ansible
   

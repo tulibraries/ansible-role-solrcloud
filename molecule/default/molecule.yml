@@ -1,9 +1,6 @@
 ---
 dependency:
   name: galaxy
-  collections:
-    - name: community.docker
-  requirements_file: requirements.yml
 driver:
   name: docker
 lint: |
@@ -83,4 +80,4 @@ scenario:
     - cleanup
     - destroy
 verifier:
-  name: goss
+  name: ansible
