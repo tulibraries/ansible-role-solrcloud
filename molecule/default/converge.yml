@@ -1,5 +1,13 @@
 ---
+- name: converge
+  hosts: zookeeper
+  roles:
+    - role: ansible_zookeeper
+  vars:
+    - zookeeper_version: 3.9.2
 
-- hosts: solrcloud
+
+- name: converge
+  hosts: solrcloud
   roles:
     - role: ansible-role-solrcloud

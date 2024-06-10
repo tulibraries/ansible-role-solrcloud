@@ -103,7 +103,7 @@
     - skip_ansible_lint
 
 - name: SolrCloud | Execute SolrCloud installation script
-  ansible.builtin.shell: /tmp/install_solr_service.sh /tmp/{{ solr_cloud_package }} -f -u {{ solr_user }} -n
+  ansible.builtin.shell: bash /tmp/install_solr_service.sh /tmp/{{ solr_cloud_package }} -f -u {{ solr_user }} -n
   when: |
       service_solrcloud_status.rc > 0 or
       service_solrcloud_status is success and

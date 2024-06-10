@@ -6,15 +6,15 @@
     mode: 0744
 
 - name: SolrCloud | Check Root Path (znode) in ZooKeeper
-  ansible.builtin.command: >
-    {{ solr_zookeeper_client_path }}/zkcli.sh
+  ansible.builtin.shell: >
+    bash {{ solr_zookeeper_client_path }}/zkcli.sh
     -zkhost {{ solr_zookeeper_hosts }}
     -cmd list /{{ solr_zookeeper_hosts_solr_path }}
   register: solr_path_check
   changed_when: false
 
 - name: SolrCloud | Create Root Path (znode) in ZooKeeper using zkcli script
-  ansible.builtin.command: >
+  ansible.builtin.shell: >
     {{ solr_zookeeper_client_path }}/zkcli.sh
     -zkhost {{ solr_zookeeper_hosts }}
     -cmd makepath /{{ solr_zookeeper_hosts_solr_path }}
