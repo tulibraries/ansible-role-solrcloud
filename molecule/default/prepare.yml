@@ -11,3 +11,8 @@
       file:
         path: '/etc/default/locale'
         state: touch
+    - name: Install Java 17 (OpenJDK) on Debian
+      ansible.builtin.apt:
+        name: openjdk-17-jre
+        state: present
+        update_cache: yes

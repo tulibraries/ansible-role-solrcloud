@@ -6,7 +6,7 @@ driver:
 platforms:
   - name: zookeeper
     hostname: zookeeper
-    image: zookeeper:latest
+    image: geerlingguy/docker-debian12-ansible:latest
     privileged: true
     cgroupns_mode: host
     command: /lib/systemd/systemd
@@ -26,7 +26,7 @@ platforms:
 
   - name: solrcloud1
     hostname: solrcloud1
-    image: bitnami/solr:8.11.3-debian-12-r9
+    image: geerlingguy/docker-debian12-ansible:latest
     privileged: true
     cgroupns_mode: host
     capabilities:
@@ -50,7 +50,7 @@ platforms:
 
   - name: solrcloud2
     hostname: solrcloud2
-    image: bitnami/solr:8.11.3-debian-12-r9
+    image: geerlingguy/docker-debian12-ansible:latest
     privileged: true
     cgroupns_mode: host
     capabilities:
