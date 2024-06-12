@@ -12,6 +12,8 @@ galaxy_info:
     - name: EL
       versions:
         - '7'
+    - name: rockylinux
+      versions:
+        - 8
   galaxy_tags:
     - 'system'
-dependencies: []

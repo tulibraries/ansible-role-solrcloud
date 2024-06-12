@@ -1,2 +1,7 @@
 ---
 - src: geerlingguy.git
+  name: geerlingguy.git
+  version: 3.0.1
+
+- src: https://github.com/sleighzy/ansible-zookeeper.git
+  name: ansible_zookeeper

@@ -4,7 +4,7 @@
 ## ------------------------
 solr_version: 8.2.0
 solrcloud_install: true
-solr_java_home: "/usr/local/openjdk-11"
+solr_java_home: "/usr"
 
 # User & Group
 solr_user: solr
@@ -45,21 +45,12 @@ solr_jmx_enabled: 'true'
 solr_jmx_port: 1099
 
 # JVM
-solr_gc_tune: "-XX:NewRatio=3 \
--XX:SurvivorRatio=4 \
--XX:TargetSurvivorRatio=90 \
--XX:MaxTenuringThreshold=8 \
--XX:+UseG1GC \
--XX:ConcGCThreads=4 \
--XX:ParallelGCThreads=4 \
--XX:+CMSScavengeBeforeRemark \
--XX:PretenureSizeThreshold=64m \
--XX:+UseCMSInitiatingOccupancyOnly \
--XX:CMSInitiatingOccupancyFraction=50 \
--XX:CMSMaxAbortablePrecleanTime=6000 \
--XX:+CMSParallelRemarkEnabled \
+solr_gc_tune: "-XX:+PerfDisableSharedMem \
 -XX:+ParallelRefProcEnabled \
--XX:+UseTLAB"
+-XX:G1HeapRegionSize=8m \
+-XX:MaxGCPauseMillis=250 \
+-XX:InitiatingHeapOccupancyPercent=75 \
+-XX:+UseLargePages"
 solr_stack_size: 256k
 solr_heap: 512m
 
