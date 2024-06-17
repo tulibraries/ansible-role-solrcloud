@@ -4,6 +4,7 @@
 solr_required_libs:
   - rsync
   - lsof
+  - tar
 solr_cloud_build_name: "solr-{{ solr_version }}"
 solr_cloud_package: "{{ solr_cloud_build_name }}.tgz"
 solr_external_libraries_destination_path: "{{ solr_installation_dir }}/server/solr-webapp/webapp/WEB-INF/lib/"
