@@ -16,47 +16,48 @@
   limitations under the License.
   -->
 
+<!-- Default production configuration is asnychronous logging -->
 <Configuration>
   <Appenders>
 
     <Console name="STDOUT" target="SYSTEM_OUT">
       <PatternLayout>
         <Pattern>
-          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5p (%t) [%X{collection} %X{shard} %X{replica} %X{core}] %c{1.} %m%n
+          %maxLen{%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p (%t) [%notEmpty{c:%X{collection}}%notEmpty{ s:%X{shard}}%notEmpty{ r:%X{replica}}%notEmpty{ x:%X{core}}%notEmpty{ t:%X{trace_id}}] %c{1.} %m%notEmpty{ =>%ex{short}}}{10240}%n
         </Pattern>
       </PatternLayout>
     </Console>
 
     <RollingRandomAccessFile
         name="MainLogFile"
-      fileName="${sys:solr.log.dir}/{{ solr_log_file_name }}"
-      filePattern="${sys:solr.log.dir}/{{ solr_log_file_name }}.%i" >
+        fileName="${sys:solr.log.dir}/solr.log"
+        filePattern="${sys:solr.log.dir}/solr.log.%i" >
       <PatternLayout>
         <Pattern>
-          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5p (%t) [%X{collection} %X{shard} %X{replica} %X{core}] %c{1.} %m%n
+          %maxLen{%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p (%t) [%notEmpty{c:%X{collection}}%notEmpty{ s:%X{shard}}%notEmpty{ r:%X{replica}}%notEmpty{ x:%X{core}}%notEmpty{ t:%X{trace_id}}] %c{1.} %m%notEmpty{ =>%ex{short}}}{10240}%n
         </Pattern>
       </PatternLayout>
       <Policies>
         <OnStartupTriggeringPolicy />
-        <SizeBasedTriggeringPolicy size="{{ solr_log_file_size }}"/>
+        <SizeBasedTriggeringPolicy size="32 MB"/>
       </Policies>
-      <DefaultRolloverStrategy max="{{ solr_log_max_backup_index }}"/>
+      <DefaultRolloverStrategy max="10"/>
     </RollingRandomAccessFile>
 
     <RollingRandomAccessFile
         name="SlowLogFile"
-      fileName="${sys:solr.log.dir}/{{ solr_log_slow_queries_file_name }}"
-      filePattern="${sys:solr.log.dir}/{{ solr_log_slow_queries_file_name }}.%i" >
+        fileName="${sys:solr.log.dir}/solr_slow_requests.log"
+        filePattern="${sys:solr.log.dir}/solr_slow_requests.log.%i" >
       <PatternLayout>
         <Pattern>
-          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5p (%t) [%X{collection} %X{shard} %X{replica} %X{core}] %c{1.} %m%n
+          %maxLen{%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p (%t) [%notEmpty{c:%X{collection}}%notEmpty{ s:%X{shard}}%notEmpty{ r:%X{replica}}%notEmpty{ x:%X{core}}%notEmpty{ t:%X{trace_id}}] %c{1.} %m%notEmpty{ =>%ex{short}}}{10240}%n
         </Pattern>
       </PatternLayout>
       <Policies>
         <OnStartupTriggeringPolicy />
-        <SizeBasedTriggeringPolicy size="{{ solr_log_file_size }}"/>
+        <SizeBasedTriggeringPolicy size="32 MB"/>
       </Policies>
-      <DefaultRolloverStrategy max="{{ solr_log_max_backup_index }}"/>
+      <DefaultRolloverStrategy max="10"/>
     </RollingRandomAccessFile>
 
   </Appenders>
@@ -77,7 +78,7 @@
     <AsyncLogger name="org.eclipse.jetty.webapp" level="warn"/>
     <AsyncLogger name="org.eclipse.jetty.server.session" level="warn"/>
 
-    <AsyncRoot level="{{ solr_log_root_level }}">
+    <AsyncRoot level="info">
       <AppenderRef ref="MainLogFile"/>
       <AppenderRef ref="STDOUT"/>
     </AsyncRoot>
