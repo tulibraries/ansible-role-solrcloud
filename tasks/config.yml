@@ -24,39 +24,43 @@
     create_root_path_result.rc != 0 and
     "NodeExists" not in create_root_path_result.stderr
 
-- name: SolrCloud | Configuring jetty server
-  ansible.builtin.template:
-    src: "{{ solr_templates_dir }}/{{ jetty_config_template }}"
-    dest: "{{ solr_installation_dir }}/server/etc/jetty.xml"
-    force: true
-  notify: Restart SolrCloud
+#- name: SolrCloud | Configuring jetty server
+  #ansible.builtin.template:
+    #src: "{{ solr_templates_dir }}/{{ jetty_config_template }}"
+    #dest: "{{ solr_installation_dir }}/server/etc/jetty.xml"
+    #force: true
+  #notify: Restart SolrCloud
 
-- name: SolrCloud | Configuring jetty server http
-  ansible.builtin.template:
-    src: "{{ solr_templates_dir }}/{{ jetty_http_config_template }}"
-    dest: "{{ solr_installation_dir }}/server/etc/jetty-http.xml"
-    force: true
-  notify: Restart SolrCloud
+#- name: SolrCloud | Configuring jetty server http
+  #ansible.builtin.template:
+    #src: "{{ solr_templates_dir }}/{{ jetty_http_config_template }}"
+    #dest: "{{ solr_installation_dir }}/server/etc/jetty-http.xml"
+    #force: true
+  #notify: Restart SolrCloud
 
-- name: SolrCloud | Configuring SolrCloud init script
-  ansible.builtin.template:
-    src: "{{ solr_templates_dir }}/{{ solr_in_sh_template }}"
-    dest: /etc/default/solr.in.sh
-    force: true
-  notify: Restart SolrCloud
+#- name: SolrCloud | Configuring SolrCloud init script
+  #ansible.builtin.template:
+    #src: "{{ solr_templates_dir }}/{{ solr_in_sh_template }}"
+    #dest: /etc/default/solr.in.sh
+    #force: true
+  #notify: Restart SolrCloud
 
-- name: SolrCloud | Configuring SolrCloud properties
-  ansible.builtin.template:
-    src: "{{ solr_templates_dir }}/{{ solr_xml_template }}"
-    dest: "{{ solr_data_dir }}/solr.xml"
-    force: true
-  notify: Restart SolrCloud
+#- name: SolrCloud | Configuring SolrCloud properties
+  #ansible.builtin.template:
+    #src: "{{ solr_templates_dir }}/{{ solr_xml_template }}"
+    #dest: "{{ solr_data_dir }}/solr.xml"
+    #force: true
+  #notify: Restart SolrCloud
 
-- name: SolrCloud | Configuring logging
-  ansible.builtin.template:
-    src: "{{ solr_templates_dir }}/{{ solr_log_config_file }}.j2"
-    dest: "{{ solr_installation_dir }}/{{ solr_log_config_file }}"
-    force: true
+#- name: SolrCloud | Configuring logging
+  #ansible.builtin.template:
+    #src: "{{ solr_templates_dir }}/{{ solr_log_config_file }}.j2"
+    #dest: "{{ solr_installation_dir }}/{{ solr_log_config_file }}"
+    #force: true
+  #notify: Restart SolrCloud
+
+- name: SolrCloud | Restart SolrCloud
+  ansible.builtin.command: "echo Hello world"
   notify: Restart SolrCloud
 
 - name: SolrCloud | Install maven_artifact module required packages
@@ -85,7 +89,7 @@
   ansible.builtin.uri:
     url: "http://{{ solr_host }}:{{ solr_port }}/solr"
     status_code: 200
-  retries: 100
+  retries: 25
   delay: 1
   register: result
   until: result.status == 200

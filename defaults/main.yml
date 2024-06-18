@@ -2,10 +2,10 @@
 
 ## SOLRCLOUD CONFIGURATIONS
 ## ------------------------
-solr_version: 8.2.0
+solr_version: 9.6.1
 solrcloud_install: true
 solr_java_home: "/usr"
-solr_cloud_url: "http://archive.apache.org/dist/lucene/solr/{{ solr_version }}/{{ solr_cloud_package }}"
+solr_cloud_url: "http://archive.apache.org/dist/solr/solr/{{ solr_version }}/{{ solr_cloud_package }}"
 
 # User & Group
 solr_user: solr
