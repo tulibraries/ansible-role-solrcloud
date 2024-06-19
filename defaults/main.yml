@@ -22,6 +22,7 @@ solr_service_state: started  # current state: started, stopped
 solr_installation_dir: /opt/solr
 solr_templates_dir: templates
 solr_log_dir: /var/log/solr
+solr_jetty_host: "0.0.0.0"
 solr_jetty_log_dir: /var/log/jetty
 solr_home: /var/solr
 solr_data_dir: "{{ solr_home }}/data"
