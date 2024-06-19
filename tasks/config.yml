@@ -59,6 +59,10 @@
     force: true
   notify: Restart SolrCloud
 
+# - name: SolrCloud | Call Restart SolrCloud
+#   ansible.builtin.command: "echo Hello world"
+#   notify: Restart SolrCloud
+
 - name: SolrCloud | Install maven_artifact module required packages
   ansible.builtin.package:
     name: "{{ item }}"
@@ -85,7 +89,7 @@
   ansible.builtin.uri:
     url: "http://{{ solr_host }}:{{ solr_port }}/solr"
     status_code: 200
-  retries: 100
+  retries: 25
   delay: 1
   register: result
   until: result.status == 200
