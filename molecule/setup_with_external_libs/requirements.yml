@@ -1,2 +1,7 @@
 ---
-- src: geerlingguy.git
+- src: geerlingguy.java
+  name: geerlingguy.java
+
+- src: https://github.com/tulibraries/ansible-zookeeper
+  name: tulibraries.zookeeper
+  version: v0.25.0

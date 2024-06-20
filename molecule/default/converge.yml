@@ -1,8 +1,51 @@
 ---
 - name: converge
+  hosts: all
+  pre_tasks:
+    - name: Set Java 8 package for RedHat.
+      set_fact:
+        java_packages:
+          - java-1.8.0-openjdk
+      when: ansible_os_family == "RedHat"
+    - name: 'CONFIG | Use Python 3.11 as default selection'
+      community.general.alternatives:
+        name: python3
+        path: /usr/bin/python3.11
+        link: /usr/local/bin/python3
+    - name: 'CONFIG | Use Python 3.11 as default selection'
+      community.general.alternatives:
+        name: python
+        path: /usr/bin/python3.11
+        link: /usr/local/bin/python
+    - name: 'INSTALL | Add python symlink to python3'
+      ansible.builtin.file:
+        force: true
+        dest: "/usr/bin/python"
+        src: "/usr/bin/python3"
+        state: link
+    - name: 'INSTALL | Add pip symlink to pip3.11'
+      ansible.builtin.file:
+        force: true
+        dest: "/usr/local/bin/pip"
+        src: "/usr/bin/pip3.11"
+        state: link
+
+    - name: 'INSTALL | Add pip3 symlink to pip3.11'
+      ansible.builtin.file:
+        force: true
+        dest: "/usr/local/bin/pip3"
+        src: "/usr/bin/pip3.11"
+        state: link
+
+    # See: https://stackoverflow.com/a/76732793/256854
+    - name: 'INSTALL | Upgrade pip version'
+      ansible.builtin.command: pip3 install --upgrade pip
+
+- name: converge
   hosts: zookeeper
   roles:
-    - role: ansible_zookeeper
+    - role: geerlingguy.java
+    - role: tulibraries.zookeeper
   vars:
     - zookeeper_version: 3.9.2
 
@@ -10,4 +53,5 @@
 - name: converge
   hosts: solrcloud
   roles:
+    - role: geerlingguy.java
     - role: ansible-role-solrcloud
