@@ -17,6 +17,7 @@ solr_password: abc123
 # (Re)Start Service on Box (Re)Boot?
 solr_service_enabled: true
 solr_service_state: started  # current state: started, stopped
+solr_service_name: solr
 
 # Files & Paths
 solr_installation_dir: /opt/solr

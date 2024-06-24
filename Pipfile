@@ -6,7 +6,6 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pylint = "*"
-ansible = "==10.0.1"
 molecule = "*"
 molecule-docker = "*"
 docker = "*"
@@ -14,6 +13,11 @@ ansible-lint = "*"
 
 [packages]
 cryptography = "*"
+ansible-core = "==2.16"
+ansible = "*"
+
+# Remove once this is fixed: https://github.com/ansible-collections/community.docker/issues/868#issuecomment-2124979976
+requests = "==2.31.0"
 
 [requires]
 python_version = "3.12"

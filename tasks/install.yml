@@ -91,23 +91,23 @@
         "<str name=\"lucene-spec-version\">solr_version</str>" not in solrcloud_check.content)
 
 - name: SolrCloud | Extract SolrCloud installation script in the current directory
-  ansible.builtin.shell: "tar xzf /tmp/{{ solr_cloud_package }} {{ solr_cloud_build_name }}/bin/install_solr_service.sh --strip-components=2"
+  ansible.builtin.shell: "tar xzf /tmp/{{ solr_cloud_package }} {{ solr_cloud_build_name }}/bin/install_solr_service.sh"
   args:
     chdir: /tmp
   when: |
       service_solrcloud_status.rc > 0 or
       service_solrcloud_status is success and
         (solrcloud_check is failed or
-        "<str name=\"lucene-spec-version\">{{ solr_version }}</str>" not in solrcloud_check.content)
+        "<str name=\"lucene-spec-version\">9.6.1</str>" not in solrcloud_check.content)
   tags:
     - skip_ansible_lint
 
 - name: SolrCloud | Execute SolrCloud installation script
-  ansible.builtin.shell: bash /tmp/install_solr_service.sh /tmp/{{ solr_cloud_package }} -f -u {{ solr_user }} -n
+  ansible.builtin.shell: /tmp/install_solr_service.sh /tmp/{{ solr_cloud_package }} -i {{ solr_installation_dir }} -d {{ solr_home }} -u {{ solr_user }} -s {{ solr_service_name }} -p {{ solr_port }} 
   when: |
       service_solrcloud_status.rc > 0 or
       service_solrcloud_status is success and
         (solrcloud_check is failed or
-        "<str name=\"lucene-spec-version\">{{ solr_version }}</str>" not in solrcloud_check.content)
+        "<str name=\"lucene-spec-version\">9.6.1</str>" not in solrcloud_check.content)
   tags:
     - skip_ansible_lint
