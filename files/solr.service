@@ -10,5 +10,6 @@ User=solr
 Group=solr
 PIDFile=/var/run/solr.pid
 Restart=on-failure
+RestartSec=30s
 [Install]
 WantedBy=multi-user.target
