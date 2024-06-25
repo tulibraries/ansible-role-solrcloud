@@ -1,0 +1,14 @@
+[Unit]
+Description=Apache Solr
+After=network.target
+[Service]
+Type=forking
+ExecStart=/etc/init.d/solr start
+ExecStop=/etc/init.d/solr stop
+ExecReload=/etc/init.d/solr restart
+User=solr
+Group=solr
+PIDFile=/var/run/solr.pid
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target

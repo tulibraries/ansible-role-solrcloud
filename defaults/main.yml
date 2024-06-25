@@ -86,7 +86,7 @@ zookeeper_hosts: "
 solr_zookeeper_hosts: "{{ zookeeper_hosts | join(',') }}"
 solr_zookeeper_hosts_solr_path: solr
 solr_zk_host: "{{ solr_zookeeper_hosts }}/{{ solr_zookeeper_hosts_solr_path }}"
-solr_zookeeper_client_path: "{{ solr_installation_dir }}/server/scripts/cloud-scripts"
+solr_zookeeper_client_path: "{{ solr_installation_path }}/{{ solr_cloud_build_name }}/server/scripts/cloud-scripts"
 solr_zookeeper_client_timeout: 15000
 
 # External libs support
