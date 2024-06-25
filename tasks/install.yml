@@ -59,55 +59,69 @@
     - "{{ solr_log_dir }}"
     - "{{ solr_data_dir }}"
     - "{{ solr_jetty_log_dir }}"
+    - "{{ solr_installation_path }}"
 
-- name: SolrCloud | Check if service is running
-  ansible.builtin.command: systemctl status solr.service
+- name: SolrCloud | Check if Solr has been installed already.
+  stat:
+    path: "{{ solr_installation_path }}/{{ solr_cloud_build_name }}"
+  register: solr_installation_path_status
+
+- name: SolrCloud | Check if service is running and Check version
+  ansible.builtin.command: service solr status
   ignore_errors: true
-  changed_when: false
   register: service_solrcloud_status
   tags:
     - skip_ansible_lint
 
-- name: SolrCloud | Check installed version
-  ansible.builtin.uri:
-    url: "http://localhost:{{ solr_port }}/solr/admin/info/system?wt=xml"
-    force_basic_auth: yes
-    user: "{{ solr_username }}"
-    password: "{{ solr_password }}"
-    return_content: true
-  register: solrcloud_check
-  changed_when: false
-  ignore_errors: true
-  when: service_solrcloud_status is success
+- name: solr_status
+  debug:
+    var: service_solrcloud_status
 
 - name: SolrCloud | Download SolrCloud binaries
   ansible.builtin.get_url:
     url: "{{ solr_cloud_url }}"
-    dest: /tmp/{{ solr_cloud_package }}
-  when: |
-      service_solrcloud_status.rc > 0 or
-      service_solrcloud_status is success and
-        (solrcloud_check is failed or
-        "<str name=\"lucene-spec-version\">solr_version</str>" not in solrcloud_check.content)
+    dest: "{{ solr_workspace }}/{{ solr_cloud_package }}"
+  when: solr_installation_path_path_status.stat.isdir is not defined
+  register: solr_download_status
 
-- name: SolrCloud | Extract SolrCloud installation script in the current directory
-  ansible.builtin.shell: "tar xzf /tmp/{{ solr_cloud_package }} {{ solr_cloud_build_name }}/bin/install_solr_service.sh"
-  args:
-    chdir: /tmp
-  when: |
-      service_solrcloud_status.rc > 0 or
-      service_solrcloud_status is success and
-        (solrcloud_check is failed or
-        "<str name=\"lucene-spec-version\">9.6.1</str>" not in solrcloud_check.content)
-  tags:
-    - skip_ansible_lint
+- name: SolrCloud | Put install_solr_service.sh override into the working directory.
+  ansible.builtin.copy:
+    src: install_solr_service.sh
+    dest: /{{solr_workspace}}/install_solr_service.sh
+    mode: 0755
+
+- name: SolrCloud | Ensure service wrapper is installed for RHEL 9+.
+  package:
+    name:
+      - initscripts-service
+      - chkconfig
+    state: present
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_version.split(".")[0] >= '9'
+
+- name: SolrCloud | Ensure service wrapper is installed for RHEL 7 & 8.
+  package:
+    name:
+      - initscripts
+      - chkconfig
+    state: present
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_version.split(".")[0] <= '8'
+
+
+- name: SolrCloud | Expand Solr.
+  ansible.builtin.unarchive:
+    src: "{{ solr_workspace }}/{{ solr_cloud_package }}"
+    dest: "{{ solr_workspace }}"
+    copy: false
 
 - name: SolrCloud | Execute SolrCloud installation script
-  ansible.builtin.shell: /tmp/install_solr_service.sh /tmp/{{ solr_cloud_package }} -i {{ solr_installation_dir }} -d {{ solr_home }} -u {{ solr_user }} -s {{ solr_service_name }} -p {{ solr_port }} 
+  ansible.builtin.shell: "{{ solr_workspace }}/install_solr_service.sh {{ solr_workspace }}/{{ solr_cloud_package }} -i {{ solr_installation_path }} -d {{ solr_home }} -u {{ solr_user }} -s {{ solr_service_name }} -p {{ solr_port }} -f"
   when: |
       service_solrcloud_status.rc > 0 or
       service_solrcloud_status is success and
-        (solrcloud_check is failed or
-        "<str name=\"lucene-spec-version\">9.6.1</str>" not in solrcloud_check.content)
+         solr_version not in service_solrcloud_status.stdout
   tags:
     - skip_ansible_lint

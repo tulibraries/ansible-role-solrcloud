@@ -1,6 +1,6 @@
 ---
 
 - name: Restart SolrCloud
-  ansible.builtin.systemd_service:
+  ansible.builtin.service:
     name: solr
     state: restarted
