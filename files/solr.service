@@ -9,7 +9,6 @@ ExecReload=/etc/init.d/solr restart
 User=solr
 Group=solr
 PIDFile=/var/run/solr.pid
-Restart=always
-RestartSec=60
+Restart=on-failure
 [Install]
 WantedBy=multi-user.target
