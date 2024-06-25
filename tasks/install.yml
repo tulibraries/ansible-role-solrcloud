@@ -130,9 +130,14 @@
   debug:
     var: solr_installation_status
 
+# Workaround for bug https://github.com/ansible/ansible-modules-core/issues/915.
 - name: SolrCloud | Stop solr service
-  ansible.builtin.command: service solr stop
-  when: solr_installation_status.changed
+  ansible.builtin.command: service {{ solr_service_name }} stop
+  failed_when: false
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_version.split(".")[0] >= '7'
+    - solr_installation_status.changed
 
 - name: SolrCloud | Copy solr.service
   ansible.builtin.copy:
@@ -140,3 +145,13 @@
     dest: /etc/systemd/system/solr.service
   when: |
       ansible_service_mgr == "systemd"
+
+- name: Run systemd daemon_reload (RHEL 7+ workaround).
+  systemd:
+    name: solr
+    daemon_reload: true
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_version.split(".")[0] >= '7'
+    - solr_installation_status.changed
+

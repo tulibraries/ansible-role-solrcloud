@@ -16,4 +16,4 @@ jobs:
       - run: sudo apt update; sudo apt install rsync
       - run:
           name: Molecule
-          command: pipenv run molecule test
+          command: pipenv run molecule converge

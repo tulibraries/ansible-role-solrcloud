@@ -4,3 +4,4 @@
   ansible.builtin.service:
     name: solr
     state: restarted
+    sleep: 5
