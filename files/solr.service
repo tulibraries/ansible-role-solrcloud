@@ -7,7 +7,6 @@ Requires=multi-user.target
 [Service]
 Type=forking
 Restart=no
-TimeoutSec=5min
 IgnoreSIGPIPE=no
 KillMode=process
 GuessMainPID=no
