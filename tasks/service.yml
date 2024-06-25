@@ -5,4 +5,5 @@
     name: solr
     state: "{{ solr_service_state }}"
     enabled: "{{ solr_service_enabled }}"
+    sleep: 5
   when: solrcloud_install
