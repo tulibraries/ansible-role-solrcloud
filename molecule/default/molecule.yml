@@ -6,10 +6,10 @@ driver:
 platforms:
   - name: zookeeper
     hostname: zookeeper
-    image: geerlingguy/docker-debian12-ansible:latest
+    image: rockylinux:8
     privileged: true
     cgroupns_mode: host
-    command: /lib/systemd/systemd
+    command: '/lib/systemd/systemd'
     capabilities:
       - SYS_ADMIN
     volumes:
@@ -26,7 +26,7 @@ platforms:
 
   - name: solrcloud1
     hostname: solrcloud1
-    image: geerlingguy/docker-debian12-ansible:latest
+    image: rockylinux:8
     privileged: true
     cgroupns_mode: host
     capabilities:
@@ -50,7 +50,7 @@ platforms:
 
   - name: solrcloud2
     hostname: solrcloud2
-    image: geerlingguy/docker-debian12-ansible:latest
+    image: rockylinux:8
     privileged: true
     cgroupns_mode: host
     capabilities:

@@ -1,5 +1,4 @@
 ---
-
 - name: SolrCloud | Give execution permission to zkcli script
   ansible.builtin.file:
     path: "{{ solr_zookeeper_client_path }}/zkcli.sh"
@@ -27,14 +26,14 @@
 - name: SolrCloud | Configuring jetty server
   ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ jetty_config_template }}"
-    dest: "{{ solr_installation_dir }}/server/etc/jetty.xml"
+    dest: "{{ solr_installation_path }}/{{ solr_cloud_build_name }}/server/etc/jetty.xml"
     force: true
   notify: Restart SolrCloud
 
 - name: SolrCloud | Configuring jetty server http
   ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ jetty_http_config_template }}"
-    dest: "{{ solr_installation_dir }}/server/etc/jetty-http.xml"
+    dest: "{{ solr_installation_path }}/{{ solr_cloud_build_name }}/server/etc/jetty-http.xml"
     force: true
   notify: Restart SolrCloud
 
@@ -55,13 +54,9 @@
 - name: SolrCloud | Configuring logging
   ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ solr_log_config_file }}.j2"
-    dest: "{{ solr_installation_dir }}/{{ solr_log_config_file }}"
+    dest: "{{ solr_installation_path }}/{{ solr_cloud_build_name }}/{{ solr_log_config_file }}"
     force: true
   notify: Restart SolrCloud
-
-# - name: SolrCloud | Call Restart SolrCloud
-#   ansible.builtin.command: "echo Hello world"
-#   notify: Restart SolrCloud
 
 - name: SolrCloud | Install maven_artifact module required packages
   ansible.builtin.package:

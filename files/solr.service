@@ -1,0 +1,19 @@
+[Unit]
+Description=LSB: Controls Apache Solr as a Service
+Before=multi-user.target
+After=network-online.target
+Requires=multi-user.target
+
+[Service]
+Type=forking
+Restart=no
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=yes
+SuccessExitStatus=5 6
+ExecStart=/etc/init.d/solr start
+ExecStop=/etc/init.d/solr stop
+
+[Install]
+WantedBy=multi-user.target

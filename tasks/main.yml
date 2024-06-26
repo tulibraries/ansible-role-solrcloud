@@ -5,12 +5,12 @@
   tags:
     - install
 
-- name: SolrCloud | Configure
-  import_tasks: config.yml
-  tags:
-    - configure
-
-- name: SolrCloud | Service
+- name: SolrCloud | Start Service
   import_tasks: service.yml
   tags:
     - service
+
+- name: SolrCloud | Reconfigure Service
+  import_tasks: config.yml
+  tags:
+    - configure

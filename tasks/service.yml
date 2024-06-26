@@ -1,9 +1,9 @@
 ---
 
 - name: SolrCloud | Configuring service
-  ansible.builtin.systemd:
+  ansible.builtin.service:
     name: solr
     state: "{{ solr_service_state }}"
     enabled: "{{ solr_service_enabled }}"
-    daemon_reload: true
+    sleep: 5
   when: solrcloud_install

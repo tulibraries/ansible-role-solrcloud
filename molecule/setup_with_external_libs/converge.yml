@@ -1,6 +1,0 @@
----
-
-- name: Converge
-  hosts: solrcloud
-  roles:
-    - role: ansible-role-solrcloud

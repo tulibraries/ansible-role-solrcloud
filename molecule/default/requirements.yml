@@ -1,7 +1,8 @@
 ---
-- src: geerlingguy.git
-  name: geerlingguy.git
-  version: 3.0.1
+- src: geerlingguy.java
+  name: geerlingguy.java
+  version: 2.5.0
 
-- src: https://github.com/sleighzy/ansible-zookeeper.git
-  name: ansible_zookeeper
+- src: https://github.com/tulibraries/ansible-zookeeper
+  name: tulibraries.zookeeper
+  version: v0.25.0

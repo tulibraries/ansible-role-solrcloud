@@ -17,9 +17,12 @@ solr_password: abc123
 # (Re)Start Service on Box (Re)Boot?
 solr_service_enabled: true
 solr_service_state: started  # current state: started, stopped
+solr_service_name: solr
 
 # Files & Paths
-solr_installation_dir: /opt/solr
+solr_workspace: /root
+solr_installation_dir: /opt
+solr_installation_path: /opt/solr
 solr_templates_dir: templates
 solr_log_dir: /var/log/solr
 solr_jetty_host: "0.0.0.0"
@@ -83,7 +86,7 @@ zookeeper_hosts: "
 solr_zookeeper_hosts: "{{ zookeeper_hosts | join(',') }}"
 solr_zookeeper_hosts_solr_path: solr
 solr_zk_host: "{{ solr_zookeeper_hosts }}/{{ solr_zookeeper_hosts_solr_path }}"
-solr_zookeeper_client_path: "{{ solr_installation_dir }}/server/scripts/cloud-scripts"
+solr_zookeeper_client_path: "{{ solr_installation_path }}/{{ solr_cloud_build_name }}/server/scripts/cloud-scripts"
 solr_zookeeper_client_timeout: 15000
 
 # External libs support
