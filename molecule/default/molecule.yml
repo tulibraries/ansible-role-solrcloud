@@ -6,7 +6,7 @@ driver:
 platforms:
   - name: zookeeper
     hostname: zookeeper
-    image: rockylinux:8
+    image: geerlingguy/docker-rockylinux9-ansible:latest
     privileged: true
     cgroupns_mode: host
     command: '/lib/systemd/systemd'
