@@ -6,15 +6,15 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pylint = "*"
-molecule = "*"
+molecule = "24.9.0"
 molecule-docker = "*"
 docker = "*"
 ansible-lint = "*"
 
 [packages]
 cryptography = "*"
-ansible-core = "==2.17.0"
-ansible = "*"
+ansible = "==10.7.0"
+ansible-core = "*"
 
 # Remove once this is fixed: https://github.com/ansible-collections/community.docker/issues/868#issuecomment-2124979976
 requests = "==2.31.0"
