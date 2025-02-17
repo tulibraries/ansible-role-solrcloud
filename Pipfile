@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pylint = "*"
-molecule = "24.9.0"
+molecule = "*"
 molecule-docker = "*"
 docker = "*"
 ansible-lint = "*"
