@@ -5,8 +5,8 @@
     - role: geerlingguy.java
     - role: tulibraries.zookeeper
   vars:
-    - zookeeper_version: 3.9.2
-    - zookeeper_url: https://dlcdn.apache.org/zookeeper/zookeeper-3.9.2/apache-zookeeper-3.9.2-bin.tar.gz
+    - zookeeper_version: 3.9.3
+    - zookeeper_url: https://dlcdn.apache.org/zookeeper/zookeeper-3.9.3/apache-zookeeper-3.9.3-bin.tar.gz
 
 
 - name: converge

@@ -6,7 +6,7 @@ driver:
 platforms:
   - name: zookeeper
     hostname: zookeeper
-    image: rockylinux:8
+    image: geerlingguy/docker-rockylinux9-ansible:latest
     privileged: true
     cgroupns_mode: host
     command: '/lib/systemd/systemd'
@@ -26,7 +26,7 @@ platforms:
 
   - name: solrcloud1
     hostname: solrcloud1
-    image: rockylinux:8
+    image: geerlingguy/docker-rockylinux9-ansible:latest
     privileged: true
     cgroupns_mode: host
     capabilities:
@@ -50,7 +50,7 @@ platforms:
 
   - name: solrcloud2
     hostname: solrcloud2
-    image: rockylinux:8
+    image: geerlingguy/docker-rockylinux9-ansible:latest
     privileged: true
     cgroupns_mode: host
     capabilities:

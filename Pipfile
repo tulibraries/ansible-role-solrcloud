@@ -13,8 +13,8 @@ ansible-lint = "*"
 
 [packages]
 cryptography = "*"
-ansible-core = "==2.16.3"
-ansible = "*"
+ansible = "==10.7.0"
+ansible-core = "*"
 
 # Remove once this is fixed: https://github.com/ansible-collections/community.docker/issues/868#issuecomment-2124979976
 requests = "==2.31.0"
