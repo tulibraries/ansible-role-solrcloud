@@ -2,17 +2,16 @@
 version: 2.1
 jobs:
   build:
+    machine:
+      image: ubuntu-2204:current
     working_directory: ~/ansible-role-solrcloud
-    docker:
-      - image: cimg/python:3.12.3
-        environment:
-          PIPENV_VENV_IN_PROJECT: true
+    environment:
+      PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
       - run:
           name: Install
           command: pipenv install --dev
-      - setup_remote_docker
       - run: sudo apt update; sudo apt install rsync
       - run:
           name: Molecule
