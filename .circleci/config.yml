@@ -7,21 +7,31 @@ jobs:
     working_directory: ~/ansible-role-solrcloud
     environment:
       PIPENV_VENV_IN_PROJECT: true
+      PYENV_ROOT: ~/.pyenv
+      PATH: ~/.pyenv/bin:~/.pyenv/shims:/usr/local/bin:/usr/bin:/bin
     steps:
       - checkout
+
       - run:
-          name: Install system dependencies
+          name: Prevent apt service restart prompts
           command: |
+            echo -e '#!/bin/sh\nexit 101' | sudo tee /usr/sbin/policy-rc.d
+            sudo chmod +x /usr/sbin/policy-rc.d
+
+      - run:
+          name: Install system dependencies (non-interactive)
+          command: |
+            export DEBIAN_FRONTEND=noninteractive
             sudo apt update
-            sudo apt install -y make build-essential libssl-dev zlib1g-dev \
-              libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
-              libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git
+            sudo apt install -y --no-install-recommends \
+              make build-essential libssl-dev zlib1g-dev libbz2-dev \
+              libreadline-dev libsqlite3-dev wget curl llvm \
+              libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
+              libffi-dev liblzma-dev git python3-pip rsync
+
       - run:
           name: Install pyenv and Python 3.12.3
           command: |
-            export PYENV_ROOT="$HOME/.pyenv"
-            export PATH="$PYENV_ROOT/bin:$PATH"
-
             curl https://pyenv.run | bash
 
             echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
@@ -36,20 +46,20 @@ jobs:
 
             pyenv install 3.12.3
             pyenv global 3.12.3
+
       - run:
-          name: Install pipenv and deps
+          name: Install pipenv and dependencies
           command: |
             export PYENV_ROOT="$HOME/.pyenv"
             export PATH="$PYENV_ROOT/bin:$PATH"
             eval "$(pyenv init --path)"
-
             pip install pipenv
             pipenv install --dev
+
       - run:
-          name: Run Molecule
+          name: Run Molecule tests
           command: |
             export PYENV_ROOT="$HOME/.pyenv"
             export PATH="$PYENV_ROOT/bin:$PATH"
             eval "$(pyenv init --path)"
-
             pipenv run molecule test
