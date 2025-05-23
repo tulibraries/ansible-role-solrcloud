@@ -74,13 +74,6 @@
 - name: SolrCloud | Force handlers
   ansible.builtin.meta: flush_handlers
 
-- name: Wait for Solr port to be ready
-  ansible.builtin.wait_for:
-    host: "{{ solr_host }}"
-    port: "{{ solr_port }}"
-    delay: 2
-    timeout: 120
-
 - name: SolrCloud | Wait for SolrCloud to fully startup before continue
   ansible.builtin.uri:
     url: "http://{{ solr_host }}:{{ solr_port }}/solr"
