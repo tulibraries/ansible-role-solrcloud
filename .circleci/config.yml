@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  molecule:
+  build:
     machine:
       image: ubuntu-2204:current
     working_directory: ~/ansible-role-solrcloud
