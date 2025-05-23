@@ -29,17 +29,28 @@ jobs:
               libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
               libffi-dev liblzma-dev git python3-pip rsync
 
-      - run:
-          name: Install pyenv and Python 3.12.3 (user-local)
-          command: |
-            git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+      - restore_cache:
+          keys:
+            - pyenv-3.12.3-v1
 
+      - run:
+          name: Install pyenv and Python 3.12.3 if missing
+          command: |
             export PYENV_ROOT="$HOME/.pyenv"
             export PATH="$PYENV_ROOT/bin:$PATH"
+            if [ ! -d "$PYENV_ROOT" ]; then
+              git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+            fi
             eval "$(pyenv init --path)"
-
-            pyenv install 3.12.3
+            if [ ! -d "$PYENV_ROOT/versions/3.12.3" ]; then
+              pyenv install 3.12.3
+            fi
             pyenv global 3.12.3
+
+      - save_cache:
+          key: pyenv-3.12.3-v1
+          paths:
+            - ~/.pyenv/versions/3.12.3
 
       - run:
           name: Install pipenv and dependencies
