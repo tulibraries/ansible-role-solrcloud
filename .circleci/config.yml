@@ -10,9 +10,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install
-          command: pipenv install --dev
-      - run: sudo apt update; sudo apt install rsync
-      - run:
-          name: Molecule
-          command: pipenv run molecule converge
+          name: Install Python and Pipenv
+          command: |
+            sudo apt update
+            sudo apt install -y python3 python3-pip rsync
+            pip3 install pipenv
+      - run: pipenv install --dev
+      - run: pipenv run molecule converge
