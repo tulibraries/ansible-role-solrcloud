@@ -130,15 +130,6 @@
   ansible.builtin.debug:
     var: solr_installation_status
 
-# Workaround for bug https://github.com/ansible/ansible-modules-core/issues/915.
-- name: SolrCloud | Stop solr service
-  ansible.builtin.service: systemctl stop {{ solr_service_name }}
-  failed_when: false
-  when:
-    - ansible_os_family == 'RedHat'
-    - ansible_distribution_version.split(".")[0] >= '7'
-    - solr_installation_status.changed
-
 - name: SolrCloud | Copy solr.service
   ansible.builtin.copy:
     src: solr.service
