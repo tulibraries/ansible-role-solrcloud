@@ -132,7 +132,7 @@
 
 # Workaround for bug https://github.com/ansible/ansible-modules-core/issues/915.
 - name: SolrCloud | Stop solr service
-  ansible.builtin.service: service {{ solr_service_name }} stop
+  ansible.builtin.service: systemctl stop {{ solr_service_name }} 
   failed_when: false
   when:
     - ansible_os_family == 'RedHat'
