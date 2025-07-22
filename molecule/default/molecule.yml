@@ -9,7 +9,7 @@ platforms:
     image: geerlingguy/docker-rockylinux9-ansible:latest
     privileged: true
     cgroupns_mode: host
-    command: /sbin/init
+    command: '/lib/systemd/systemd'
     capabilities:
       - SYS_ADMIN
     volumes:
@@ -38,7 +38,7 @@ platforms:
       - /tmp
     groups:
       - solrcloud
-    command: /sbin/init
+    command: '/lib/systemd/systemd'
     networks:
       - name: solr-network
         aliases:
@@ -62,7 +62,7 @@ platforms:
       - /tmp
     groups:
       - solrcloud
-    command: /sbin/init
+    command: '/lib/systemd/systemd'
     networks:
       - name: solr-network
         aliases:
