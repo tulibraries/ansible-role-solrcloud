@@ -6,7 +6,7 @@
     - role: tulibraries.zookeeper
   vars:
     - zookeeper_version: 3.9.4
-    - zookeeper_url: https://dlcdn.apache.org/zookeeper/zookeeper-3.9.3/apache-zookeeper-3.9.3-bin.tar.gz
+    - zookeeper_url: https://dlcdn.apache.org/zookeeper/zookeeper-3.9.4/apache-zookeeper-3.9.4-bin.tar.gz
 
 
 - name: converge
