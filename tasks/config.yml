@@ -1,28 +1,4 @@
 ---
-- name: SolrCloud | Ensure solr group exists
-  ansible.builtin.group:
-    name: solr
-    state: present
-
-- name: SolrCloud | Ensure solr user exists
-  ansible.builtin.user:
-    name: solr
-    group: solr
-    shell: /bin/bash
-    create_home: true
-    home: /var/solr
-
-- name: SolrCloud | Ensure solr owns directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    owner: solr
-    group: solr
-    recurse: true
-  loop:
-    - /opt/solr
-    - /var/solr
-
 - name: SolrCloud | Give execution permission to zkcli script
   ansible.builtin.file:
     path: "{{ solr_zookeeper_client_path }}/zkcli.sh"
