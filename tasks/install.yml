@@ -137,11 +137,10 @@
   when: |
       ansible_service_mgr == "systemd"
 
-- name: Run systemd daemon_reload (RHEL 7+ workaround).
+- name: Reload systemd after Solr unit is installed
   ansible.builtin.systemd:
-    name: solr
     daemon_reload: true
   when:
     - ansible_os_family == 'RedHat'
-    - ansible_distribution_version.split(".")[0] >= '7'
+    - ansible_distribution_major_version | int >= 7
     - solr_installation_status.changed

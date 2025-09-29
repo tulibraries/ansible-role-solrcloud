@@ -14,3 +14,5 @@
   roles:
     - role: geerlingguy.java
     - role: ansible-role-solrcloud
+  vars:
+    - solr_java_home: /usr/lib/jvm/java-17-openjdk
