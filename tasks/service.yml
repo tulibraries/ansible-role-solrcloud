@@ -7,3 +7,12 @@
     enabled: "{{ solr_service_enabled }}"
     sleep: 5
   when: solrcloud_install
+
+- name: Dump Solr service logs (Molecule only)
+  ansible.builtin.command: journalctl -xeu solr.service --no-pager --lines=50
+  register: solr_logs
+  changed_when: false
+  failed_when: false
+  when: molecule_yml is defined
+- debug:
+    var: solr_logs.stdout_lines
