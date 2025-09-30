@@ -8,11 +8,26 @@
     sleep: 5
   when: solrcloud_install
 
-- name: Dump Solr service logs (Molecule only)
-  ansible.builtin.command: journalctl -xeu solr.service --no-pager --lines=50
-  register: solr_logs
+- name: Collect Solr service status (Molecule only)
+  ansible.builtin.command: systemctl status solr -l --no-pager
+  register: solr_status
   changed_when: false
   failed_when: false
   when: molecule_yml is defined
-- debug:
-    var: solr_logs.stdout_lines
+
+- name: Show Solr service status
+  ansible.builtin.debug:
+    var: solr_status.stdout_lines
+  when: molecule_yml is defined
+
+- name: Collect Solr journal logs (Molecule only)
+  ansible.builtin.command: journalctl -xeu solr.service --no-pager --lines=50
+  register: solr_journal
+  changed_when: false
+  failed_when: false
+  when: molecule_yml is defined
+
+- name: Show Solr journal logs
+  ansible.builtin.debug:
+    var: solr_journal.stdout_lines
+  when: molecule_yml is defined
