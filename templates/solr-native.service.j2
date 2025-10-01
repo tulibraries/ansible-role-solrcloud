@@ -1,0 +1,29 @@
+[Unit]
+Description=Apache Solr
+After=network.target
+
+[Service]
+Type=forking
+User={{ solr_user | default("solr") }}
+Group={{ solr_group | default("solr") }}
+EnvironmentFile=-/etc/default/solr.in.sh
+
+# Explicitly ensure JAVA_HOME and PATH are always available
+Environment="JAVA_HOME={{ solr_java_home | default('/usr/lib/jvm/java-17-openjdk') }}"
+Environment="PATH={{ solr_java_home | default('/usr/lib/jvm/java-17-openjdk') }}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+
+ExecStart={{ solr_installation_dir | default('/opt/solr') }}/bin/solr start
+ExecStop={{ solr_installation_dir | default('/opt/solr') }}/bin/solr stop
+ExecReload={{ solr_installation_dir | default('/opt/solr') }}/bin/solr restart
+
+# Restart on failure to help CI
+Restart=on-failure
+RestartSec=10
+
+LimitNOFILE=65535
+
+# Logs go to syslog and also Solr's own log dir
+WorkingDirectory={{ solr_log_dir | default('/var/log/solr') }}
+
+[Install]
+WantedBy=multi-user.target

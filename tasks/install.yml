@@ -130,12 +130,23 @@
   ansible.builtin.debug:
     var: solr_installation_status
 
-- name: SolrCloud | Copy solr.service
+- name: Install legacy solr.service (default for prod)
   ansible.builtin.copy:
     src: solr.service
     dest: /etc/systemd/system/solr.service
-  when: |
-      ansible_service_mgr == "systemd"
+    owner: root
+    group: root
+    mode: '0644'
+  when: molecule_yml is not defined
+
+- name: Install native Solr systemd unit (Molecule only)
+  ansible.builtin.template:
+    src: solr-native.service.j2
+    dest: /etc/systemd/system/solr.service
+    owner: root
+    group: root
+    mode: '0644'
+  when: molecule_yml is defined
 
 - name: Reload systemd after Solr unit is installed
   ansible.builtin.systemd:
