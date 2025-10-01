@@ -9,19 +9,45 @@
 
 - name: Show Solr service status
   ansible.builtin.debug:
-    var: solr_status.stdout_lines
+    msg: |
+      {{ solr_status.stdout }}
+      {{ solr_status.stderr }}
   when: molecule_yml is defined
 
-- name: Collect Solr journal logs (Molecule only)
-  ansible.builtin.command: journalctl -xeu solr.service --no-pager --lines=50
-  register: solr_journal
+- name: Collect systemd environment (Molecule only)
+  ansible.builtin.command: systemctl show-environment
+  register: systemd_env
   changed_when: false
   failed_when: false
   when: molecule_yml is defined
 
-- name: Show Solr journal logs
+- name: Show systemd environment
   ansible.builtin.debug:
-    var: solr_journal.stdout_lines
+    var: systemd_env.stdout_lines
+  when: molecule_yml is defined
+
+- name: List Solr log files (Molecule only)
+  ansible.builtin.shell: "ls -1 {{ solr_log_dir }} || true"
+  register: solr_log_list
+  changed_when: false
+  failed_when: false
+  when: molecule_yml is defined
+
+- name: Show Solr log files
+  ansible.builtin.debug:
+    var: solr_log_list.stdout_lines
+  when: molecule_yml is defined
+
+- name: Tail Solr logs (Molecule only)
+  ansible.builtin.shell: "tail -n 100 {{ solr_log_dir }}/*.log 2>/dev/null || true"
+  register: solr_logs
+  changed_when: false
+  failed_when: false
+  when: molecule_yml is defined
+
+- name: Show Solr logs
+  ansible.builtin.debug:
+    msg: "{{ solr_logs.stdout_lines }}"
   when: molecule_yml is defined
 
 - name: SolrCloud | Configuring service
