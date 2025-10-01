@@ -139,6 +139,36 @@
     mode: '0644'
   when: molecule_yml is not defined
 
+- name: Check java binary
+  ansible.builtin.shell: "ls -l /usr/bin/java || echo 'no /usr/bin/java'"
+  register: java_bin
+  changed_when: false
+  failed_when: false
+
+- name: Show java binary
+  ansible.builtin.debug:
+    var: java_bin.stdout
+
+- name: Check java version
+  ansible.builtin.command: java -version
+  register: java_version
+  changed_when: false
+  failed_when: false
+
+- name: Show java version
+  ansible.builtin.debug:
+    var: java_version.stderr_lines
+
+- name: Check java availability for solr user
+  ansible.builtin.shell: "runuser -l solr -c 'which java || echo no-java'"
+  register: solr_user_java
+  changed_when: false
+  failed_when: false
+
+- name: Show java availability for solr user
+  ansible.builtin.debug:
+    var: solr_user_java.stdout
+
 - name: Install native Solr systemd unit (Molecule only)
   ansible.builtin.template:
     src: solr-native.service.j2
