@@ -50,6 +50,18 @@
     msg: "{{ solr_logs.stdout_lines }}"
   when: molecule_yml is defined
 
+- name: Show rendered solr.service (Molecule only)
+  ansible.builtin.command: cat /etc/systemd/system/solr.service
+  register: solr_unit
+  changed_when: false
+  failed_when: false
+  when: molecule_yml is defined
+
+- name: Debug solr.service content
+  ansible.builtin.debug:
+    msg: "{{ solr_unit.stdout_lines }}"
+  when: molecule_yml is defined
+
 - name: SolrCloud | Configuring service
   ansible.builtin.service:
     name: solr
