@@ -148,11 +148,13 @@
     mode: '0644'
   when: molecule_yml is defined
 
-- name: Mask the SysV init script (Molecule only)
-  ansible.builtin.command: systemctl mask solr.service
+- name: Mask the SysV init script for Solr (Molecule only)
+  ansible.builtin.systemd:
+    name: solr
+    masked: true
   when: molecule_yml is defined
 
-- name: Enable Solr service (Molecule only)
+- name: Enable Solr service and reload systemd (Molecule only)
   ansible.builtin.systemd:
     name: solr
     enabled: true
