@@ -15,7 +15,7 @@ concurrency:
 jobs:
   molecule:
     runs-on: [ self-hosted, systemd-runner ]
-    timeout-minutes: 50
+    timeout-minutes: 90
     strategy:
       matrix:
         python-version: [ 3.12 ]
