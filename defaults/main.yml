@@ -77,12 +77,7 @@ solr_jetty_http_selectors: -1
 solr_jetty_http_acceptors: -1
 
 # Zookeeper
-zookeeper_hosts: "
-        {%- set ips = [] %}
-        {%- for host in groups['zookeeper'] %}
-          {{- ips.append(hostvars[host].ansible_host) }}
-        {%- endfor %}
-        {{- ips -}}"
+zookeeper_hosts: "{%- set ips = [] %}{%- for host in groups['zookeeper'] %}{{- ips.append(hostvars[host].ansible_host) }}{%- endfor %}{{- ips -}}"
 solr_zookeeper_hosts: "{{ zookeeper_hosts | join(',') }}"
 solr_zookeeper_hosts_solr_path: solr
 solr_zk_host: "{{ solr_zookeeper_hosts }}/{{ solr_zookeeper_hosts_solr_path }}"

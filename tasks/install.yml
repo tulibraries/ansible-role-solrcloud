@@ -21,28 +21,28 @@
     createhome: false
 
 - name: SolrCloud | Ensure system open file soft limits for solr user are high enough
-  pam_limits:
+  community.general.pam_limits:
     domain: solr
     limit_type: soft
     limit_item: nofile
     value: "66000"
 
 - name: SolrCloud | Ensure system open file hard limits for solr user are high enough
-  pam_limits:
+  community.general.pam_limits:
     domain: solr
     limit_type: hard
     limit_item: nofile
     value: "666000"
 
 - name: SolrCloud | Ensure system process soft limits for solr user are high enough
-  pam_limits:
+  community.general.pam_limits:
     domain: solr
     limit_type: soft
     limit_item: nproc
     value: "66000"
 
 - name: SolrCloud | Ensure system process hard limits for solr user are high enough
-  pam_limits:
+  community.general.pam_limits:
     domain: solr
     limit_type: soft
     limit_item: nproc
@@ -54,7 +54,7 @@
     state: directory
     owner: "{{ solr_user }}"
     group: "{{ solr_group }}"
-    mode: 0755
+    mode: "0755"
   with_items:
     - "{{ solr_log_dir }}"
     - "{{ solr_data_dir }}"
@@ -62,7 +62,7 @@
     - "{{ solr_installation_path }}"
 
 - name: SolrCloud | Check if Solr has been installed already.
-  stat:
+  ansible.builtin.stat:
     path: "{{ solr_installation_path }}/{{ solr_cloud_build_name }}"
   register: solr_installation_path_status
 
@@ -70,17 +70,21 @@
   ansible.builtin.get_url:
     url: "{{ solr_cloud_url }}"
     dest: "{{ solr_workspace }}/{{ solr_cloud_package }}"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+    mode: "0644"
   when: solr_installation_path_path_status.stat.isdir is not defined
   register: solr_download_status
+
 
 - name: SolrCloud | Put install_solr_service.sh override into the working directory.
   ansible.builtin.copy:
     src: install_solr_service.sh
-    dest: /{{solr_workspace}}/install_solr_service.sh
-    mode: 0755
+    dest: /{{ solr_workspace }}/install_solr_service.sh
+    mode: "0755"
 
 - name: SolrCloud | Ensure service wrapper is installed for RHEL 9+.
-  package:
+  ansible.builtin.package:
     name:
       - initscripts-service
       - chkconfig
@@ -90,7 +94,7 @@
     - ansible_distribution_version.split(".")[0] >= '9'
 
 - name: SolrCloud | Ensure service wrapper is installed for RHEL 7 & 8.
-  package:
+  ansible.builtin.package:
     name:
       - initscripts
       - chkconfig
@@ -106,8 +110,8 @@
   tags:
     - skip_ansible_lint
 
-- name: solr_status
-  debug:
+- name: Solr_status
+  ansible.builtin.debug:
     var: service_solrcloud_status
 
 - name: SolrCloud | Expand Solr.
@@ -127,7 +131,7 @@
     - skip_ansible_lint
 
 - name: SolrCloud | check solr installation status
-  debug:
+  ansible.builtin.debug:
     var: solr_installation_status
 
 # Workaround for bug https://github.com/ansible/ansible-modules-core/issues/915.
@@ -143,15 +147,17 @@
   ansible.builtin.copy:
     src: solr.service
     dest: /etc/systemd/system/solr.service
-  when: |
-      ansible_service_mgr == "systemd"
+    owner: root
+    group: root
+    mode: "0644"
+  when: ansible_service_mgr == "systemd"
+
 
 - name: Run systemd daemon_reload (RHEL 7+ workaround).
-  systemd:
+  ansible.builtin.systemd:
     name: solr
     daemon_reload: true
   when:
     - ansible_os_family == 'RedHat'
     - ansible_distribution_version.split(".")[0] >= '7'
     - solr_installation_status.changed
-

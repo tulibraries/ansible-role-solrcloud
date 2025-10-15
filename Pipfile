@@ -13,11 +13,9 @@ ansible-lint = "*"
 
 [packages]
 cryptography = "*"
-ansible = "==10.7.0"
+ansible = "==12.1.0"
 ansible-core = "*"
-
-# Remove once this is fixed: https://github.com/ansible-collections/community.docker/issues/868#issuecomment-2124979976
-requests = "==2.31.0"
+requests = "*"
 
 [requires]
 python_version = "3.12"
