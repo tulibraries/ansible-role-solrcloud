@@ -2,7 +2,7 @@
 - name: SolrCloud | Give execution permission to zkcli script
   ansible.builtin.file:
     path: "{{ solr_zookeeper_client_path }}/zkcli.sh"
-    mode: 0744
+    mode: "0744"
 
 - name: SolrCloud | Check Root Path (znode) in ZooKeeper
   ansible.builtin.shell: >
@@ -27,30 +27,45 @@
   ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ jetty_config_template }}"
     dest: "{{ solr_installation_path }}/{{ solr_cloud_build_name }}/server/etc/jetty.xml"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+    mode: "0644"
     force: true
 
 - name: SolrCloud | Configuring jetty server http
   ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ jetty_http_config_template }}"
     dest: "{{ solr_installation_path }}/{{ solr_cloud_build_name }}/server/etc/jetty-http.xml"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+    mode: "0644"
     force: true
 
 - name: SolrCloud | Configuring SolrCloud init script
   ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ solr_in_sh_template }}"
     dest: /etc/default/solr.in.sh
+    owner: root
+    group: root
+    mode: "0644"
     force: true
 
 - name: SolrCloud | Configuring SolrCloud properties
   ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ solr_xml_template }}"
     dest: "{{ solr_data_dir }}/solr.xml"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+    mode: "0644"
     force: true
 
 - name: SolrCloud | Configuring logging
   ansible.builtin.template:
     src: "{{ solr_templates_dir }}/{{ solr_log_config_file }}.j2"
     dest: "{{ solr_installation_path }}/{{ solr_cloud_build_name }}/{{ solr_log_config_file }}"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+    mode: "0644"
     force: true
 
 - name: SolrCloud | Install maven_artifact module required packages
@@ -61,13 +76,13 @@
   when: solr_external_libraries is defined and solr_external_libraries|length > 0
 
 - name: SolrCloud | Copy external libraries
-  maven_artifact:
+  community.general.maven_artifact:
     group_id: "{{ item.group_id }}"
     artifact_id: "{{ item.artifact_id }}"
     version: "{{ item.version }}"
     repository_url: "{{ solr_external_libraries_repository_url }}"
     dest: "{{ solr_external_libraries_destination_path }}"
-    mode: 0644
+    mode: "0644"
   with_items: "{{ solr_external_libraries }}"
   when: solr_external_libraries is defined and solr_external_libraries|length > 0
 
@@ -97,3 +112,6 @@
   ansible.builtin.template:
     dest: /etc/sysctl.d/solr.conf
     src: sysctl-solr.conf.j2
+    owner: root
+    group: root
+    mode: "0644"
