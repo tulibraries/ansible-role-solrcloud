@@ -115,3 +115,37 @@
     owner: root
     group: root
     mode: "0644"
+
+- name: SolrCloud | Ensure Transparent Huge Pages are disabled
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/disable-thp.service
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      [Unit]
+      Description=Disable Transparent Huge Pages
+      After=sysinit.target local-fs.target
+
+      [Service]
+      Type=oneshot
+      ExecStart=/bin/sh -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled && echo never > /sys/kernel/mm/transparent_hugepage/defrag"
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: SolrCloud | Enable and start disable-thp service
+  ansible.builtin.systemd:
+    name: disable-thp
+    enabled: true
+    state: started
+
+- name: SolrCloud | Verify THP is disabled
+  ansible.builtin.command: cat /sys/kernel/mm/transparent_hugepage/enabled
+  register: thp_status
+  changed_when: false
+
+- name: SolrCloud | Debug THP status
+  ansible.builtin.debug:
+    msg: "{{ thp_status.stdout }}"
+
