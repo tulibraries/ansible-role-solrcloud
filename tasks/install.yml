@@ -13,12 +13,19 @@
   ansible.builtin.group:
     name: "{{ solr_group }}"
 
+- name: SolrCloud | Check if solr user already exists
+  ansible.builtin.command: "getent passwd {{ solr_user }}"
+  register: solr_user_lookup
+  failed_when: false
+  changed_when: false
+
 - name: SolrCloud | Ensure solr user
   ansible.builtin.user:
     name: "{{ solr_user }}"
     group: "{{ solr_group }}"
     home: "{{ solr_installation_dir }}"
     createhome: false
+  when: solr_user_lookup.rc != 0
 
 - name: SolrCloud | Ensure system open file soft limits for solr user are high enough
   community.general.pam_limits:
