@@ -13,7 +13,7 @@ ansible-lint = "*"
 
 [packages]
 cryptography = "*"
-ansible = "==12.1.0"
+ansible = "==12.2.0"
 ansible-core = "*"
 requests = "*"
 
