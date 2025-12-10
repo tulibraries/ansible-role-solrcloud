@@ -1,0 +1,53 @@
+name: Molecule Test
+
+on:
+  push:
+    branches-ignore:
+      - main
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      PIPENV_VENV_IN_PROJECT: true
+      ANSIBLE_VAULT_PASSWORD_FILE: ~/.vault
+      ANSIBLE_ALLOW_BROKEN_CONDITIONALS: "true"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Disable setup-python cache under act
+        run: |
+          if [ -n "${ACT:-}" ]; then
+            echo "ACTIONS_SETUP_PYTHON_DISABLE_CACHE=true" >> "$GITHUB_ENV"
+          fi
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y rsync
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: '.python-version'
+          cache: 'pipenv'
+          cache-dependency-path: 'Pipfile.lock'
+
+      - name: Install pipenv
+        run: python -m pip install --upgrade pip pipenv
+
+      - name: Install dependencies
+        run: pipenv sync --dev
+
+      - name: Set up vault password
+        run: |
+          printf '%s' "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > ~/.vault
+          chmod 600 ~/.vault
+      
+      - name: Run Molecule tests
+        run: pipenv run molecule test

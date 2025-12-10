@@ -112,8 +112,9 @@
 
 - name: SolrCloud | Check if service is running and Check version
   ansible.builtin.command: service solr status
-  ignore_errors: true
   register: service_solrcloud_status
+  changed_when: false
+  failed_when: false
   tags:
     - skip_ansible_lint
 
