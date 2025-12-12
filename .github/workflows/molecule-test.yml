@@ -22,12 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Disable setup-python cache under act
-        run: |
-          if [ -n "${ACT:-}" ]; then
-            echo "ACTIONS_SETUP_PYTHON_DISABLE_CACHE=true" >> "$GITHUB_ENV"
-          fi
-
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y rsync
 
@@ -44,6 +38,7 @@ jobs:
 
       - name: Set up vault password
         run: |
+          echo "::add-mask::${{ secrets.ANSIBLE_VAULT_PASSWORD }}"
           printf '%s' "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > ~/.vault
           chmod 600 ~/.vault
       
