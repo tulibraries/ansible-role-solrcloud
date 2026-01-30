@@ -6,16 +6,18 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pylint = "*"
-molecule = "*"
-molecule-docker = "*"
 docker = "*"
 ansible-lint = "*"
+molecule = "*"
+molecule-plugins = {extras = ["docker"], version = "*"}
 
 [packages]
 cryptography = "*"
 ansible = "==12.2.0"
 ansible-core = "*"
+molecule = "*"
 requests = "*"
+molecule-plugins = {extras = ["docker"], version = "*"}
 
 [requires]
 python_version = "3.12"
