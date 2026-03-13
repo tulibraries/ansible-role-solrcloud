@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PIPENV_VENV_IN_PROJECT: true
-      ANSIBLE_VAULT_PASSWORD_FILE: ~/.vault
       ANSIBLE_ALLOW_BROKEN_CONDITIONALS: "true"
 
     steps:
@@ -38,9 +37,12 @@ jobs:
 
       - name: Set up vault password
         run: |
+          rm -f "$RUNNER_TEMP/.vault"
           echo "::add-mask::${{ secrets.ANSIBLE_VAULT_PASSWORD }}"
-          printf '%s' "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > ~/.vault
-          chmod 600 ~/.vault
+          printf '%s' "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" | tr -d '\r\n' > "$RUNNER_TEMP/.vault"
+          chmod 600 "$RUNNER_TEMP/.vault"
       
       - name: Run Molecule tests
-        run: pipenv run molecule test
+        run: | 
+          export ANSIBLE_VAULT_PASSWORD_FILE="$RUNNER_TEMP/.vault"
+          pipenv run molecule test
