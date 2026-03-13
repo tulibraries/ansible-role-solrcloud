@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PIPENV_VENV_IN_PROJECT: true
-      ANSIBLE_VAULT_PASSWORD_FILE: ${{ runner.temp }}/.vault
+      ANSIBLE_VAULT_PASSWORD_FILE: $RUNNER_TEMP/.vault
       ANSIBLE_ALLOW_BROKEN_CONDITIONALS: "true"
 
     steps:
