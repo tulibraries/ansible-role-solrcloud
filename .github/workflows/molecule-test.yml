@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PIPENV_VENV_IN_PROJECT: true
-      ANSIBLE_VAULT_PASSWORD_FILE: $RUNNER_TEMP/.vault
       ANSIBLE_ALLOW_BROKEN_CONDITIONALS: "true"
 
     steps:
@@ -44,4 +43,6 @@ jobs:
           chmod 600 "$RUNNER_TEMP/.vault"
       
       - name: Run Molecule tests
+        env:
+          ANSIBLE_VAULT_PASSWORD_FILE: $RUNNER_TEMP/.vault
         run: pipenv run molecule test
