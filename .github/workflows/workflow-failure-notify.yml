@@ -5,7 +5,7 @@ permissions:
 
 on:
   workflow_run:
-    workflows: ["Molecule Test", "Dependabot auto-merge"]
+    workflows: ["Molecule Test"]
     types: [completed]
 
 jobs:
