@@ -3,6 +3,8 @@
   hosts: zookeeper
   roles:
     - role: geerlingguy.java
+      vars:
+        java_home: false
     - role: tulibraries.zookeeper
   vars:
     zookeeper_version: 3.9.5
@@ -13,4 +15,6 @@
   hosts: solrcloud
   roles:
     - role: geerlingguy.java
+      vars:
+        java_home: false
     - role: ansible-role-solrcloud
